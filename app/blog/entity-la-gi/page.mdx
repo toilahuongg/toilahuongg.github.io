@@ -1,0 +1,192 @@
+export const metadata = {
+  title: 'Entity là gì?',
+  description: 'Entity là một đối tượng cốt lõi trong Domain-Driven Design (DDD) và Clean Architecture. Đây là những đối tượng có danh tính (identity) riêng biệt và tồn tại liên tục trong thời gian, ngay cả khi các thuộc tính của nó thay đổi.',
+}
+
+# Entity là gì?
+
+## Khái niệm
+
+Entity là một đối tượng cốt lõi trong Domain-Driven Design (DDD) và Clean Architecture. Đây là những đối tượng có danh tính (identity) riêng biệt và tồn tại liên tục trong thời gian, ngay cả khi các thuộc tính của nó thay đổi. Entity đóng vai trò quan trọng trong việc thể hiện và thực thi các business rules của hệ thống.
+
+## Đặc điểm chính của Entity
+
+### 1. Danh tính duy nhất (Identity)
+- Mỗi entity phải có một định danh duy nhất (ID)
+- Hai entity được coi là giống nhau nếu có cùng ID, bất kể các thuộc tính khác có khác nhau hay không
+- ID thường không thay đổi trong suốt vòng đời của entity
+- ID có thể là một giá trị tự nhiên (như mã sản phẩm) hoặc một giá trị được tạo ra (như UUID)
+
+### 2. Tính bất biến của trạng thái (State Immutability)
+- Properties của entity được bảo vệ và chỉ có thể thay đổi thông qua các phương thức public
+- Đảm bảo tính nhất quán của dữ liệu
+- Ngăn chặn việc thay đổi trạng thái không hợp lệ
+- Giúp theo dõi và kiểm soát các thay đổi
+
+### 3. Business Logic
+- Chứa các business rules và logic nghiệp vụ
+- Thực thi các ràng buộc và quy tắc nghiệp vụ
+- Đảm bảo tính toàn vẹn của dữ liệu
+- Cung cấp các phương thức để thao tác với dữ liệu một cách an toàn
+
+### 4. Encapsulation
+- Che giấu cấu trúc dữ liệu bên trong
+- Chỉ expose các phương thức cần thiết ra bên ngoài
+- Bảo vệ tính nhất quán của dữ liệu
+- Giảm sự phụ thuộc với các thành phần khác
+
+## Vai trò trong Clean Architecture
+
+### 1. Enterprise Business Rules
+- Nằm ở lớp core nhất của ứng dụng
+- Độc lập với các framework và thư viện bên ngoài
+- Chứa các quy tắc nghiệp vụ cốt lõi
+- Ít thay đổi nhất trong hệ thống
+
+### 2. Independence
+- Không phụ thuộc vào cơ sở dữ liệu
+- Không phụ thuộc vào UI
+- Không phụ thuộc vào các external systems
+- Có thể được tái sử dụng trong nhiều contexts khác nhau
+
+## Best Practices
+
+### 1. Thiết kế
+- Sử dụng private constructor và factory methods
+- Validate dữ liệu đơn giản trong constructor và methods
+- Đảm bảo entity luôn ở trạng thái hợp lệ
+- Tránh getter/setter không cần thiết
+
+### 2. Business Logic
+- Tập trung logic nghiệp vụ trong entity
+- Xử lý các invariants và constraints
+- Đảm bảo tính nhất quán của dữ liệu
+- Cung cấp các phương thức có ngữ nghĩa rõ ràng
+
+### 3. Testing
+- Dễ dàng unit test
+- Không cần mock database hoặc external services
+- Tập trung test business rules
+- Đảm bảo coverage cho các edge cases
+
+## Lợi ích
+
+### 1. Maintainability
+- Code có cấu trúc rõ ràng
+- Dễ dàng thay đổi và mở rộng
+- Giảm thiểu technical debt
+- Dễ dàng refactor
+
+### 2. Reliability
+- Đảm bảo tính nhất quán của dữ liệu
+- Giảm thiểu bugs
+- Dễ dàng kiểm tra và debug
+- Bảo vệ business rules
+
+### 3. Reusability
+- Có thể tái sử dụng trong nhiều contexts
+- Độc lập với infrastructure
+- Dễ dàng port sang các platforms khác
+- Giảm thiểu duplicate code
+
+### 4. Scalability
+- Dễ dàng mở rộng functionality
+- Không bị ảnh hưởng bởi thay đổi infrastructure
+- Có thể scale theo chiều ngang hoặc dọc
+- Dễ dàng maintain khi hệ thống lớn
+
+
+## Example
+
+```typescript title="source: app/core/base.entity.ts" showLineNumbers
+export abstract class BaseEntity<T> {
+  protected readonly props: T;
+  private readonly _id: string;
+
+  protected constructor(props: T, id?: string) {
+    this.props = props;
+    this._id = id || crypto.randomUUID();
+  }
+
+  get id(): string {
+    return this._id;
+  }
+
+  public equals(entity: BaseEntity<T>): boolean {
+    if (entity === null || entity === undefined) {
+      return false;
+    }
+
+    if (this === entity) {
+      return true;
+    }
+
+    return this._id === entity._id;
+  }
+} 
+```
+
+```typescript title="source: app/domain/product/product.entity.ts" showLineNumbers
+export interface ProductProps {
+export interface ProductProps {
+  name: string;
+  description: string;
+  sku: string;
+  price: number;
+  stock: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export class Product extends BaseEntity<ProductProps> {
+  private constructor(props: ProductProps, id?: string) {
+    super(props, id);
+  }
+
+  public static create(props: Omit<ProductProps, 'createdAt' | 'updatedAt'>, id?: string): Product {
+    const now = new Date();
+    return new Product(
+      {
+        ...props,
+        createdAt: now,
+        updatedAt: now,
+      },
+      id
+    );
+  }
+
+  // Getters
+  get name(): string { return this.props.name; }
+  get description(): string { return this.props.description; }
+  get sku(): string { return this.props.sku; }
+  get price(): number { return this.props.price; }
+  get stock(): number { return this.props.stock; }
+  get createdAt(): Date { return this.props.createdAt; }
+  get updatedAt(): Date { return this.props.updatedAt; }
+
+  // Business logic methods
+  public update(props: Partial<Omit<ProductProps, 'createdAt' | 'updatedAt'>>): void {
+    Object.assign(this.props, {
+      ...props,
+      updatedAt: new Date(),
+    });
+  }
+
+  public updateStock(quantity: number): void {
+    if (quantity < 0) {
+      throw new Error('Stock quantity cannot be negative');
+    }
+    this.props.stock = quantity;
+    this.props.updatedAt = new Date();
+  }
+
+  public toJSON(): ProductProps & { id: string } {
+    return {
+      id: this.id,
+      ...this.props,
+    };
+  }
+} 
+
+```
+

@@ -1,26 +1,192 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply bg-gray-900 text-zinc-200;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h3 code {
+  @apply !text-lg md:!text-xl;
+}
+
+pre {
+  @apply !px-0 rounded-lg;
+}
+
+code {
+  @apply text-sm md:text-base !leading-loose;
+}
+
+pre > code {
+  counter-reset: line;
+}
+
+code[data-theme*=' '],
+code[data-theme*=' '] span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  code[data-theme*=' '],
+  code[data-theme*=' '] span {
+    color: var(--shiki-dark);
+    background-color: var(--shiki-dark-bg);
+  }
+}
+
+code[data-line-numbers] {
+  counter-reset: line;
+}
+
+code[data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  @apply inline-block w-4 mr-4 text-right text-gray-500;
+}
+
+.prose {
+  @apply max-w-[55rem] sm:text-lg md:text-xl !leading-7 sm:!leading-9;
+}
+
+pre [data-line] {
+  @apply px-4 border-l-2 border-l-transparent;
+}
+
+[data-highlighted-line] {
+  background: rgba(200, 200, 255, 0.1);
+  @apply border-l-blue-400;
+}
+
+[data-highlighted-chars] {
+  @apply bg-zinc-600/50 rounded;
+  box-shadow: 0 0 0 4px rgb(82 82 91 / 0.5);
+}
+
+[data-chars-id] {
+  @apply shadow-none p-1 border-b-2;
+}
+
+[data-chars-id] span {
+  @apply !text-inherit;
+}
+
+[data-chars-id='v'] {
+  @apply !text-pink-300 bg-rose-800/50 border-b-pink-600 font-bold;
+}
+
+[data-chars-id='s'] {
+  @apply !text-yellow-300 bg-yellow-800/50 border-b-yellow-600 font-bold;
+}
+
+[data-chars-id='i'] {
+  @apply !text-purple-200 bg-purple-800/50 border-b-purple-600 font-bold;
+}
+
+[data-rehype-pretty-code-title] {
+  @apply bg-zinc-700 text-zinc-200 rounded-t-lg py-2 px-3 font-semibold text-sm;
+}
+
+figure[data-rehype-pretty-code-figure]:has(> [data-rehype-pretty-code-title])
+  pre {
+  @apply !rounded-t-none;
+}
+
+figure {
+    @apply mb-6 mt-1;
+}
+pre,
+code,
+figure {
+  @apply overflow-x-auto;
+}
+p {
+  @apply text-base;
+}
+article {
+  @apply mx-auto max-w-3xl text-base leading-7 text-gray-200;
+}
+
+article p {
+  @apply mb-6 leading-8;
+}
+
+article li {
+  @apply leading-8 mb-2;
+}
+
+article h1 {
+  @apply text-4xl font-bold tracking-tight mt-8 mb-6 text-white;
+}
+
+article h2 {
+  @apply text-2xl font-semibold tracking-tight mt-10 mb-4 text-white;
+}
+
+article h3 {
+  @apply text-xl font-semibold tracking-tight mt-8 mb-4 text-white;
+}
+
+article h4 {
+  @apply text-lg font-semibold tracking-tight mt-6 mb-3 text-white;
+}
+
+article h5 {
+  @apply text-base font-semibold tracking-tight mt-4 mb-2 text-white;
+}
+
+article h6 {
+  @apply text-sm font-semibold tracking-tight mt-4 mb-2 text-white;
+}
+
+article ul {
+  @apply list-disc list-inside mb-6 pl-4 space-y-2;
+}
+
+article ol {
+  @apply list-decimal list-inside mb-6 pl-4 space-y-2;
+}
+
+nav.toc {
+  @apply bg-gray-800 p-4 rounded-lg mb-4 max-h-48 lg:max-h-80 overflow-auto;
+  ul, ol {
+    @apply list-none mb-2;
+  }
+  a {
+    @apply text-sm text-zinc-300 no-underline;
+  }
+}
+
+article blockquote {
+  @apply pl-4 border-l-4 border-gray-600 italic my-6 text-gray-300;
+}
+
+article a {
+  @apply text-blue-400 hover:text-blue-300 underline transition-colors;
+}
+
+article img {
+  @apply rounded-lg max-w-full h-auto my-6;
+}
+
+article hr {
+  @apply my-8 border-gray-700;
+}
+
+article table {
+  @apply w-full mb-6 border-collapse;
+}
+
+article th,
+article td {
+  @apply border border-gray-700 px-4 py-2;
+}
+
+article th {
+  @apply bg-gray-800 text-white font-semibold;
 }
