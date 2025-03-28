@@ -7,7 +7,14 @@ export default function Home() {
       title: "Clean Architecture là gì?",
       slug: "clean-architecture-la-gi",
     },
-    
+    {
+      title: "Domain-Driven Design (DDD) là gì?",
+      slug: "domain-driven-design-la-gi",
+    },
+    {
+      title: "Entity là gì?",
+      slug: "entity-la-gi",
+    },
   ]
   return (
     <div>
