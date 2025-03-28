@@ -15,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css"></link>
       </head>
       <body className={`antialiased max-w-screen-md mx-auto py-0 px-4 md:py-16`}>
         {children}
