@@ -4,7 +4,7 @@ import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
-import rehypeMermaid from 'rehype-mermaid';
+import rehypeMermaid from '@beoe/rehype-mermaid';
 import moonlightTheme from './assets/moonlight.ii.json' with { type: 'json' };
 
 const options = {
@@ -16,7 +16,17 @@ const withMDX = createMDX({
   // Add markdown plugins here, if needed
   options: {
     remarkPlugins: [remarkGfm, remarkBreaks],
-    rehypePlugins: [[rehypePrettyCode, options], rehypeSlug, rehypeMermaid, [rehypeToc, {
+    rehypePlugins: [rehypeSlug, [rehypeMermaid, {
+      mermaidConfig: {
+        theme: 'dark',
+        themeVariables: {
+          lineColor: '#d1d5db',
+          primaryColor: '#1f2937',
+          primaryTextColor: '#e5e7eb',
+          primaryBorderColor: '#4b5563',
+        }
+      }
+    }], [rehypePrettyCode, options], [rehypeToc, {
       headings: ['h2', 'h3'],
     }]],
   }

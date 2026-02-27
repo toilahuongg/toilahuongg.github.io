@@ -192,3 +192,61 @@ article td {
 article th {
   @apply bg-gray-800 text-white font-semibold;
 }
+
+/* Mermaid diagrams */
+.mermaid-wrapper {
+  @apply my-6 flex justify-center cursor-pointer rounded-lg transition-colors duration-200;
+}
+
+.mermaid-wrapper:hover {
+  @apply bg-gray-800/30;
+}
+
+.mermaid-wrapper .mermaid {
+  @apply m-0;
+}
+
+.mermaid {
+  @apply flex justify-center;
+}
+
+.mermaid svg {
+  @apply max-w-full h-auto;
+}
+
+/* Arrow lines - Mermaid uses path in edgePath */
+.mermaid path {
+  stroke: #d1d5db !important;
+}
+
+/* Arrow heads in marker elements */
+.mermaid defs marker path {
+  fill: #d1d5db !important;
+}
+
+/* Arrow heads - also check for flowchart-arrowhead class */
+.mermaid marker[id*="arrowhead"] path,
+.mermaid marker[id*="flowchart"] path {
+  fill: #d1d5db !important;
+}
+
+/* Nodes */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node ellipse,
+.mermaid .node polygon {
+  @apply fill-gray-800 stroke-gray-600;
+}
+
+.mermaid .edgeLabel {
+  @apply bg-gray-900 text-gray-200;
+}
+
+.mermaid .cluster rect {
+  @apply fill-gray-900 stroke-gray-700;
+}
+
+/* Node text */
+.mermaid .node label {
+  @apply text-gray-200;
+}

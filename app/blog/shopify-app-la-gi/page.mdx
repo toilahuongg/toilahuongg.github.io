@@ -264,6 +264,94 @@ sequenceDiagram
 
 ---
 
+## Đăng ký Shopify Partner Account
+
+Trước khi bắt đầu phát triển Shopify App, bạn cần đăng ký tài khoản **Shopify Partner**. Đây là cổng truy cập chính thức để:
+- Tạo và quản lý apps
+- Tạo development stores để test
+- Theo dõi doanh thu và earnings
+- Truy cập vào tài nguyên dành cho developers
+
+### Bước 1: Truy cập Shopify Partner Dashboard
+
+Truy cập [partners.shopify.com](https://partners.shopify.com/) và click vào **"Join now"** hoặc **"Sign up"**.
+
+### Bước 2: Điền thông tin đăng ký
+
+**Basic Information:**
+- **Email:** Sử dụng email chuyên nghiệp (để liên hệ business)
+- **Password:** Tạo mật khẩu mạnh
+- **Country/Region:** Chọn quốc gia của bạn (Việt Nam)
+- **Full name:** Tên đầy đủ của bạn
+
+**Organization Information:**
+- **Company name:** Tên công ty hoặc tên bạn muốn hiển thị
+- **Website:** Website cá nhân hoặc portfolio (có thể để sau)
+- **Organization type:** Chọn một trong các sau:
+  - **Agency:** Nếu bạn làm dịch vụ cho clients
+  - **App Developer:** Nếu tập trung phát triển apps
+  - **Individual:** Nếu bạn làm solo
+
+### Bước 3: Xác minh email
+
+Sau khi đăng ký:
+1. Kiểm tra email của bạn
+2. Click vào link xác minh từ Shopify
+3. Đăng nhập lại vào Partner Dashboard
+
+### Bước 4: Hoàn tất profile
+
+Trong **Settings** → **Organization**:
+- Upload avatar/logo
+- Thêm description về organization
+- Cập nhật thông tin liên hệ
+- Thêm team members (nếu có)
+
+### Bước 5: Tạo Development Store
+
+Development store là nơi bạn test app trước khi publish:
+
+1. Vào **Stores** → **Add store**
+2. Chọn **Development store**
+3. Điền thông tin:
+   - **Store name:** Tên store (ví dụ: `test-app-store`)
+   - **Store URL:** Tạo unique URL (`.myshopify.com`)
+   - **Store purpose:** Chọn "Testing an app"
+   - **Store address:** Điền thông tin giả định
+
+4. Click **Create store**
+
+### Bước 6: Bắt đầu với CLI
+
+Sau khi có Partner account, bạn có thể cài đặt Shopify CLI:
+
+```bash
+# Với npm
+npm install -g @shopify/cli@latest
+
+# Hoặc yarn
+yarn global add @shopify/cli@latest
+```
+
+### Tips quan trọng
+
+**💡 Một Partner Account = Nhiều Apps**
+- Không cần tạo nhiều Partner account
+- Tất cả apps được quản lý trong một dashboard
+- Có thể mời team members collaborate
+
+**💡 Development Store vs Partner Account**
+- **Partner Account:** Cấp tài khoản developer cho bạn
+- **Development Store:** Nơi test apps của bạn
+- Một Partner Account có thể tạo nhiều Development Stores (tối đa 10 cho free)
+
+**💡 Pricing**
+- Đăng ký Partner Account: **Miễn phí**
+- Development Store: **Miễn phí** (unlimited time cho dev)
+- Chỉ trả phí khi app đi vào production và sử dụng hosting
+
+---
+
 ## Quy trình phát triển Shopify App - Overview
 
 Đây là lộ trình đầy đủ để từ idea đến launch (chi tiết ở các phần sau):
