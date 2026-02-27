@@ -1,0 +1,362 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/_next/static/css/87b0bca2e9e24b11.css" data-precedence="next"/><link rel="preload" as="script" fetchPriority="low" href="/_next/static/chunks/webpack-82b2ba201d35e58a.js"/><script src="/_next/static/chunks/fd9d1056-2821b0f0cabcd8bd.js" async=""></script><script src="/_next/static/chunks/23-2309b8fd26fbddcb.js" async=""></script><script src="/_next/static/chunks/main-app-abc6aca9473c726e.js" async=""></script><script src="/_next/static/chunks/231-bea070b1ecddfbbc.js" async=""></script><script src="/_next/static/chunks/app/blog/layout-a90c7b1536f7eb16.js" async=""></script><title>Shopify App là gì? Hướng dẫn chi tiết cho người mới bắt đầu</title><meta name="description" content="Tìm hiểu về Shopify App, các loại app, lợi ích và cách kiếm tiền từ việc phát triển ứng dụng cho nền tảng Shopify."/><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="antialiased max-w-screen-md mx-auto py-0 px-4 md:py-16"><div class=""><a class="text-blue-500 hover:text-blue-700" href="/"> Back to home</a><article class="mt-4"><nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#giới-thiệu">Giới thiệu</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#shopify-ecosystem-là-gì">Shopify Ecosystem là gì?</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#shopify-app-là-gì">Shopify App là gì?</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#ví-dụ-thực-tế">Ví dụ thực tế</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#các-loại-shopify-app">Các loại Shopify App</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#1-public-apps">1. Public Apps</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#2-custom-apps">2. Custom Apps</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#3-app-extensions">3. App Extensions</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#lợi-ích-của-việc-phát-triển-shopify-app">Lợi ích của việc phát triển Shopify App</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#1-thị-trường-lớn-và-đang-phát-triển">1. Thị trường lớn và đang phát triển</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#2-multiple-monetization-models">2. Multiple Monetization Models</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#3-platform-handles-infrastructure">3. Platform Handles Infrastructure</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#4-developer-friendly-ecosystem">4. Developer-friendly Ecosystem</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#shopify-app-hoạt-động-như-thế-nào">Shopify App hoạt động như thế nào?</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#architecture-overview">Architecture Overview</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#các-thành-phần-chính">Các thành phần chính</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#khi-nào-nên-xây-dựng-shopify-app">Khi nào nên xây dựng Shopify App?</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#-nên-xây-dựng-khi">✅ Nên xây dựng khi:</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#-không-nên-xây-dựng-khi">❌ Không nên xây dựng khi:</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#quy-trình-phát-triển-shopify-app---overview">Quy trình phát triển Shopify App - Overview</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#success-stories">Success Stories</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#bumples">Bumples</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#klaviyo">Klaviyo</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#yotpo">Yotpo</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#key-takeaways">Key Takeaways</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#tài-nguyên-tham-khảo">Tài nguyên tham khảo</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#tiếp-theo-là-gì">Tiếp theo là gì?</a></li></ol></nav>
+<h1 id="shopify-app-là-gì-hướng-dẫn-chi-tiết-cho-người-mới-bắt-đầu">Shopify App là gì? Hướng dẫn chi tiết cho người mới bắt đầu</h1>
+<h2 id="giới-thiệu">Giới thiệu</h2>
+<p>Bạn đang nghe thấy rất nhiều về Shopify App và muốn tìm hiểu cơ hội kinh doanh từ việc phát triển ứng dụng cho nền tảng này? Bài viết này sẽ giúp bạn hiểu rõ từ cơ bản đến chuyên sâu về Shopify App.</p>
+<hr/>
+<h2 id="shopify-ecosystem-là-gì">Shopify Ecosystem là gì?</h2>
+<p>Shopify là một nền tảng thương mại điện tử (e-commerce platform) cho phép các doanh nghiệp tạo cửa hàng online và bán sản phẩm. Tuy nhiên, không một nền tảng nào có thể đáp ứng tất cả nhu cầu của mọi doanh nghiệp. Đó là lý do <strong>Shopify App</strong> ra đời.</p>
+<figure data-rehype-pretty-code-figure=""><pre style="background-color:#1F2028;color:#c8d3f5" tabindex="0" data-language="mermaid" data-theme="moonlight-ii"><code data-language="mermaid" data-theme="moonlight-ii" style="display:grid"><span data-line=""><span style="color:#C8D3F5">graph TD</span></span>
+<span data-line=""><span style="color:#C8D3F5">    A[Shopify Platform] --&gt; B[Core Features]</span></span>
+<span data-line=""><span style="color:#C8D3F5">    A --&gt; C[Shopify Apps]</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="color:#C8D3F5">    B --&gt; D[Product Management]</span></span>
+<span data-line=""><span style="color:#C8D3F5">    B --&gt; E[Order Processing]</span></span>
+<span data-line=""><span style="color:#C8D3F5">    B --&gt; F[Payment Gateway]</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="color:#C8D3F5">    C --&gt; G[Public Apps]</span></span>
+<span data-line=""><span style="color:#C8D3F5">    C --&gt; H[Custom Apps]</span></span>
+<span data-line=""><span style="color:#C8D3F5">    C --&gt; I[Theme Extensions]</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="color:#C8D3F5">    G --&gt; J[App Store]</span></span>
+<span data-line=""><span style="color:#C8D3F5">    H --&gt; K[Individual Store]</span></span>
+<span data-line=""><span style="color:#C8D3F5">    I --&gt; L[Storefront Customization]</span></span></code></pre></figure>
+<hr/>
+<h2 id="shopify-app-là-gì">Shopify App là gì?</h2>
+<p><strong>Shopify App</strong> là một ứng dụng bên thứ ba tích hợp vào cửa hàng Shopify để mở rộng chức năng, tự động hóa quy trình hoặc cải thiện trải nghiệm khách hàng.</p>
+<h3 id="ví-dụ-thực-tế">Ví dụ thực tế</h3>
+<p><strong>Sticky Add to Cart App</strong> - Một app mà merchant có thể cài đặt để hiển thị nút &quot;Add to Cart&quot; cố định khi khách hàng cuộn trang, giúp tăng tỷ lệ chuyển đổi.</p>
+<p>Tính năng chính:</p>
+<ul>
+<li>Hiển thị nút mua hàng ở vị trí cố định</li>
+<li>Tự động đồng bộ với variant hiện tại</li>
+<li>Tùy chỉnh màu sắc, vị trí</li>
+<li>Hoạt động trên cả desktop và mobile</li>
+</ul>
+<hr/>
+<h2 id="các-loại-shopify-app">Các loại Shopify App</h2>
+<h3 id="1-public-apps">1. Public Apps</h3>
+<p><strong>Định nghĩa:</strong> Apps có sẵn trên Shopify App Store, merchant bất kỳ cũng có thể cài đặt.</p>
+<p><strong>Đặc điểm:</strong></p>
+<ul>
+<li>Phải được Shopify review và approve</li>
+<li>Có thể bán hoặc phân phối miễn phí</li>
+<li>Tiếp cận hàng triệu merchant trên toàn cầu</li>
+<li>Cần tuân thủ <a href="https://partners.shopify.com/marketplace/app_requirements">Shopify App Requirements</a></li>
+</ul>
+<p><strong>Ví dụ:</strong></p>
+<ul>
+<li>Apps để đánh giá sản phẩm (Product Reviews)</li>
+<li>Apps để upsell/cross-sell</li>
+<li>Apps để email marketing</li>
+<li>Apps để inventory management</li>
+</ul>
+<p><strong>Khi nào nên xây dựng Public App:</strong></p>
+<ul>
+<li>Bạn muốn tiếp cận thị trường rộng lớn</li>
+<li>Bạn có giải pháp cho nhiều merchant</li>
+<li>Bạn muốn monetize qua subscription hoặc one-time purchase</li>
+</ul>
+<h3 id="2-custom-apps">2. Custom Apps</h3>
+<p><strong>Định nghĩa:</strong> Apps được xây dựng riêng cho một hoặc một vài store cụ thể.</p>
+<p><strong>Đặc điểm:</strong></p>
+<ul>
+<li>Chỉ có thể cài đặt cho store được chỉ định</li>
+<li>Không cần Shopify review</li>
+<li>Không hiển thị trên App Store</li>
+<li>Thường là dự án custom cho khách hàng</li>
+</ul>
+<p><strong>Ví dụ:</strong></p>
+<ul>
+<li>App tích hợp với hệ thống ERP riêng</li>
+<li>App kết nối với inventory system độc quyền</li>
+<li>App cho business logic đặc thù</li>
+</ul>
+<p><strong>Khi nào nên xây dựng Custom App:</strong></p>
+<ul>
+<li>Khách hàng yêu cầu giải pháp riêng</li>
+<li>Chỉ cần phục vụ 1-2 store</li>
+<li>Logic nghiệp vụ quá đặc thù</li>
+</ul>
+<h3 id="3-app-extensions">3. App Extensions</h3>
+<p><strong>Định nghĩa:</strong> Các thành phần mở rộng hoạt động trong theme Shopify để tùy chỉnh storefront.</p>
+<p><strong>Các loại Extension phổ biến:</strong></p>
+<p><strong>a) Theme App Extensions:</strong></p>
+<ul>
+<li>App Blocks: Khối content có thể thêm vào theme</li>
+<li>App Embeds: Script chạy ngầm trên storefront</li>
+<li>Theme App Extensions: Tùy chỉnh giao diện trực tiếp trong theme editor</li>
+</ul>
+<p><strong>b) Web Pixel Extensions:</strong></p>
+<ul>
+<li>Theo dõi customer behavior</li>
+<li>Analytics tracking</li>
+<li>Third-party integrations (Google Analytics, Facebook Pixel)</li>
+</ul>
+<p><strong>c) Admin Link Extensions:</strong></p>
+<ul>
+<li>Thêm links vào Shopify Admin sidebar</li>
+<li>Điều hướng đến app UI</li>
+</ul>
+<p><strong>Ví dụ thực tế:</strong></p>
+<p>Sticky Add to Cart App sử dụng <strong>Theme App Extension</strong> để:</p>
+<ul>
+<li>Embed JavaScript vào storefront</li>
+<li>Inject web component vào theme</li>
+<li>Tương tác với Shopify Cart API</li>
+</ul>
+<hr/>
+<h2 id="lợi-ích-của-việc-phát-triển-shopify-app">Lợi ích của việc phát triển Shopify App</h2>
+<h3 id="1-thị-trường-lớn-và-đang-phát-triển">1. Thị trường lớn và đang phát triển</h3>
+<ul>
+<li><strong>2 triệu+</strong> active merchants trên Shopify</li>
+<li><strong>$444 billion</strong> GMV (Gross Merchandise Volume) năm 2023</li>
+<li><strong>20%+</strong> YoY growth</li>
+</ul>
+<h3 id="2-multiple-monetization-models">2. Multiple Monetization Models</h3>
+<p><strong>a) Recurring Revenue:</strong></p>
+<ul>
+<li>Monthly subscription (ví dụ: $9.99/tháng)</li>
+<li>Annual subscription (ví dụ: $99/năm - thường discount 20%)</li>
+</ul>
+<p><strong>b) Usage-based Pricing:</strong></p>
+<ul>
+<li>Pay per order</li>
+<li>Pay per 1,000 visitors</li>
+<li>Tiered pricing (Starter, Pro, Enterprise)</li>
+</ul>
+<p><strong>c) One-time Purchase:</strong></p>
+<ul>
+<li>Mua vĩnh viễn</li>
+<li>Lifetime license</li>
+</ul>
+<p><strong>d) Freemium Model:</strong></p>
+<ul>
+<li>Free plan với features giới hạn</li>
+<li>Paid plans với advanced features</li>
+</ul>
+<p><strong>Ví dụ pricing từ Sticky Add to Cart App:</strong></p>
+<ul>
+<li><strong>Free:</strong> Basic features, limited customization</li>
+<li><strong>Starter ($9.99/tháng):</strong> Full customization, analytics</li>
+<li><strong>Pro ($19.99/tháng):</strong> Priority support, white-label</li>
+<li><strong>Enterprise:</strong> Custom pricing, dedicated support</li>
+</ul>
+<h3 id="3-platform-handles-infrastructure">3. Platform Handles Infrastructure</h3>
+<p>Bạn không cần lo về:</p>
+<ul>
+<li>Payment processing (Shopify handles billing)</li>
+<li>Hosting (deploy wherever you want)</li>
+<li>Authentication (Shopify OAuth)</li>
+<li>Marketplace visibility (App Store traffic)</li>
+</ul>
+<h3 id="4-developer-friendly-ecosystem">4. Developer-friendly Ecosystem</h3>
+<ul>
+<li>Comprehensive <a href="https://shopify.dev/docs/apps">documentation</a></li>
+<li>CLI tools for rapid development</li>
+<li>Active community on <a href="https://community.shopify.com/c/shopify-apps">Shopify Community Forums</a></li>
+<li>Sample apps and templates</li>
+</ul>
+<hr/>
+<h2 id="shopify-app-hoạt-động-như-thế-nào">Shopify App hoạt động như thế nào?</h2>
+<h3 id="architecture-overview">Architecture Overview</h3>
+<figure data-rehype-pretty-code-figure=""><pre style="background-color:#1F2028;color:#c8d3f5" tabindex="0" data-language="mermaid" data-theme="moonlight-ii"><code data-language="mermaid" data-theme="moonlight-ii" style="display:grid"><span data-line=""><span style="color:#C8D3F5">sequenceDiagram</span></span>
+<span data-line=""><span style="color:#C8D3F5">    participant M as Merchant</span></span>
+<span data-line=""><span style="color:#C8D3F5">    participant SA as Shopify Admin</span></span>
+<span data-line=""><span style="color:#C8D3F5">    participant A as Your App</span></span>
+<span data-line=""><span style="color:#C8D3F5">    participant API as Shopify API</span></span>
+<span data-line=""><span style="color:#C8D3F5">    participant DB as Your Database</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="color:#C8D3F5">    M-&gt;&gt;SA: Click &quot;Install App&quot;</span></span>
+<span data-line=""><span style="color:#C8D3F5">    SA-&gt;&gt;A: OAuth Request</span></span>
+<span data-line=""><span style="color:#C8D3F5">    A-&gt;&gt;API: Verify credentials</span></span>
+<span data-line=""><span style="color:#C8D3F5">    API-&gt;&gt;A: Return access token</span></span>
+<span data-line=""><span style="color:#C8D3F5">    A-&gt;&gt;DB: Store shop info</span></span>
+<span data-line=""><span style="color:#C8D3F5">    A-&gt;&gt;SA: Redirect to app</span></span>
+<span data-line=""><span style="color:#C8D3F5">    SA-&gt;&gt;A: Load admin UI</span></span>
+<span data-line=""><span style="color:#C8D3F5">    A-&gt;&gt;API: Fetch shop data</span></span>
+<span data-line=""><span style="color:#C8D3F5">    A-&gt;&gt;SA: Display dashboard</span></span></code></pre></figure>
+<h3 id="các-thành-phần-chính">Các thành phần chính</h3>
+<p><strong>1. Backend (Server-side):</strong></p>
+<ul>
+<li>Xử lý OAuth authentication</li>
+<li>API endpoints cho admin UI</li>
+<li>Webhook handlers</li>
+<li>Business logic</li>
+</ul>
+<p><strong>2. Frontend (Admin UI):</strong></p>
+<ul>
+<li>Dashboard cho merchant</li>
+<li>Settings và configuration</li>
+<li>Analytics và reporting</li>
+</ul>
+<p><strong>3. Storefront Integration:</strong></p>
+<ul>
+<li>Theme extensions (blocks, embeds)</li>
+<li>Web components</li>
+<li>Script tags</li>
+</ul>
+<p><strong>4. Database:</strong></p>
+<ul>
+<li>Lưu config của từng shop</li>
+<li>App data</li>
+<li>Analytics data</li>
+</ul>
+<hr/>
+<h2 id="khi-nào-nên-xây-dựng-shopify-app">Khi nào nên xây dựng Shopify App?</h2>
+<h3 id="-nên-xây-dựng-khi">✅ Nên xây dựng khi:</h3>
+<ol>
+<li>
+<p><strong>Bạn đã tìm được vấn đề thực sự:</strong></p>
+<ul>
+<li>Phỏng vấn 10+ merchants</li>
+<li>Xác nhận pain point</li>
+<li>Validate giải pháp</li>
+</ul>
+</li>
+<li>
+<p><strong>Bạn có technical skills:</strong></p>
+<ul>
+<li>Backend development (Node.js, Python, PHP, etc.)</li>
+<li>Frontend development (React, Remix)</li>
+<li>Database management</li>
+<li>API integration</li>
+</ul>
+</li>
+<li>
+<p><strong>Bạn có time và resources:</strong></p>
+<ul>
+<li>Development: 2-6 tháng</li>
+<li>Testing: 1-2 tháng</li>
+<li>Shopify review: 1-2 tuần</li>
+<li>Ongoing maintenance</li>
+</ul>
+</li>
+<li>
+<p><strong>Market size đủ lớn:</strong></p>
+<ul>
+<li>Ít nhất 1,000 potential merchants</li>
+<li>Willingness to pay &gt;$10/tháng</li>
+</ul>
+</li>
+</ol>
+<h3 id="-không-nên-xây-dựng-khi">❌ Không nên xây dựng khi:</h3>
+<ol>
+<li>
+<p><strong>Problem không đủ lớn:</strong></p>
+<ul>
+<li>Merchants không quan tâm</li>
+<li>Có giải pháp free khác tốt hơn</li>
+<li>ROI cho merchant không rõ ràng</li>
+</ul>
+</li>
+<li>
+<p><strong>Technical complexity quá cao:</strong></p>
+<ul>
+<li>Cần chỉnh sửa core Shopify</li>
+<li>Yêu cầu permissions không available</li>
+<li>Performance impact lớn</li>
+</ul>
+</li>
+<li>
+<p><strong>Market quá nhỏ:</strong></p>
+<ul>
+<li>Chỉ &lt;100 potential users</li>
+<li>Niche quá hẹp</li>
+</ul>
+</li>
+</ol>
+<hr/>
+<h2 id="quy-trình-phát-triển-shopify-app---overview">Quy trình phát triển Shopify App - Overview</h2>
+<p>Đây là lộ trình đầy đủ để từ idea đến launch (chi tiết ở các phần sau):</p>
+<figure data-rehype-pretty-code-figure=""><pre style="background-color:#1F2028;color:#c8d3f5" tabindex="0" data-language="mermaid" data-theme="moonlight-ii"><code data-language="mermaid" data-theme="moonlight-ii" style="display:grid"><span data-line=""><span style="color:#C8D3F5">graph LR</span></span>
+<span data-line=""><span style="color:#C8D3F5">    A[Part 1: Idea &amp; Validation] --&gt; B[Part 2: Setup &amp; Tools]</span></span>
+<span data-line=""><span style="color:#C8D3F5">    B --&gt; C[Part 3: Create Project]</span></span>
+<span data-line=""><span style="color:#C8D3F5">    C --&gt; D[Part 4: Authentication]</span></span>
+<span data-line=""><span style="color:#C8D3F5">    D --&gt; E[Part 5: Admin UI]</span></span>
+<span data-line=""><span style="color:#C8D3F5">    E --&gt; F[Part 6: Database]</span></span>
+<span data-line=""><span style="color:#C8D3F5">    F --&gt; G[Part 7: API Integration]</span></span>
+<span data-line=""><span style="color:#C8D3F5">    G --&gt; H[Part 8: Theme Extensions]</span></span>
+<span data-line=""><span style="color:#C8D3F5">    H --&gt; I[Part 9: Webhooks]</span></span>
+<span data-line=""><span style="color:#C8D3F5">    I --&gt; J[Part 10: Testing &amp; Launch]</span></span></code></pre></figure>
+<hr/>
+<h2 id="success-stories">Success Stories</h2>
+<h3 id="bumples">Bumples</h3>
+<ul>
+<li><strong>Problem:</strong> Merchants cần custom checkout fields</li>
+<li><strong>Solution:</strong> App thêm custom fields vào checkout</li>
+<li><strong>Result:</strong> Acquired by Shopify for undisclosed amount</li>
+</ul>
+<h3 id="klaviyo">Klaviyo</h3>
+<ul>
+<li><strong>Problem:</strong> Email marketing automation for e-commerce</li>
+<li><strong>Solution:</strong> Deep Shopify integration + powerful automation</li>
+<li><strong>Result:</strong> IPO&#x27;d with $9B+ valuation</li>
+</ul>
+<h3 id="yotpo">Yotpo</h3>
+<ul>
+<li><strong>Problem:</strong> Customer reviews and user-generated content</li>
+<li><strong>Solution:</strong> All-in-one marketing platform</li>
+<li><strong>Result:</strong> $100M+ ARR, 100,000+ merchants</li>
+</ul>
+<hr/>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ol>
+<li>
+<p><strong>Shopify App = Business Opportunity</strong></p>
+<ul>
+<li>2M+ potential customers</li>
+<li>Multiple monetization models</li>
+<li>Platform handles infrastructure</li>
+</ul>
+</li>
+<li>
+<p><strong>3 Main Types:</strong></p>
+<ul>
+<li><strong>Public Apps:</strong> Sell on App Store</li>
+<li><strong>Custom Apps:</strong> One-off projects</li>
+<li><strong>Extensions:</strong> Storefront customization</li>
+</ul>
+</li>
+<li>
+<p><strong>Validate before build:</strong></p>
+<ul>
+<li>Talk to merchants first</li>
+<li>Confirm pain point</li>
+<li>Ensure market size</li>
+</ul>
+</li>
+<li>
+<p><strong>Technical skills required:</strong></p>
+<ul>
+<li>Backend + Frontend</li>
+<li>Database management</li>
+<li>API integration</li>
+</ul>
+</li>
+</ol>
+<hr/>
+<h2 id="tài-nguyên-tham-khảo">Tài nguyên tham khảo</h2>
+<p><strong>Official Shopify Resources:</strong></p>
+<ul>
+<li><a href="https://shopify.dev/docs/apps">Shopify App Documentation</a></li>
+<li><a href="https://shopify.dev/docs/apps/getting-started">Getting Started Guide</a></li>
+<li><a href="https://partners.shopify.com/marketplace/app_requirements">App Requirements Checklist</a></li>
+<li><a href="https://partners.shopify.com/marketplace/app_requirements">App Store Review Guidelines</a></li>
+</ul>
+<p><strong>Community:</strong></p>
+<ul>
+<li><a href="https://discord.gg/shopify">Shopify Devs Discord</a></li>
+<li><a href="https://community.shopify.com/c/shopify-apps">Shopify Community Forums</a></li>
+<li><a href="https://www.youtube.com/@shopifypartners">Shopify Partners YouTube</a></li>
+</ul>
+<hr/>
+<h2 id="tiếp-theo-là-gì">Tiếp theo là gì?</h2>
+<p>Đây là <strong>Phần 1</strong> trong series &quot;Hướng dẫn phát triển Shopify App từ A đến Z&quot;.</p>
+<p>Trong <strong>Phần 2</strong>, tôi sẽ hướng dẫn:</p>
+<ul>
+<li>Kiến thức và công cụ cần chuẩn bị</li>
+<li>Cài đặt development environment</li>
+<li>Tạo Shopify Partner account</li>
+<li>Setup development store</li>
+</ul>
+<p><a href="/blog/chuan-bi-kien-thuc-shopify-app">Đọc Phần 2: Chuẩn bị kiến thức và công cụ →</a></p></article></div><script src="/_next/static/chunks/webpack-82b2ba201d35e58a.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0]);self.__next_f.push([2,null])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/css/87b0bca2e9e24b11.css\",\"style\"]\n"])</script><script>self.__next_f.push([1,"2:I[5751,[],\"\"]\n4:I[9275,[],\"\"]\n5:I[1343,[],\"\"]\n6:I[231,[\"231\",\"static/chunks/231-bea070b1ecddfbbc.js\",\"768\",\"static/chunks/app/blog/layout-a90c7b1536f7eb16.js\"],\"\"]\n8:I[6130,[],\"\"]\n9:[]\n"])</script><script>self.__next_f.push([1,"0:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/87b0bca2e9e24b11.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\"}]],[\"$\",\"$L2\",null,{\"buildId\":\"O3-Q5fdoqPKXD7w66aJ6n\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/blog/shopify-app-la-gi\",\"initialTree\":[\"\",{\"children\":[\"blog\",{\"children\":[\"shopify-app-la-gi\",{\"children\":[\"__PAGE__\",{}]}]}]},\"$undefined\",\"$undefined\",true],\"initialSeedData\":[\"\",{\"children\":[\"blog\",{\"children\":[\"shopify-app-la-gi\",{\"children\":[\"__PAGE__\",{},[[\"$L3\",[[\"$\",\"nav\",null,{\"className\":\"toc\",\"children\":[\"$\",\"ol\",null,{\"className\":\"toc-level toc-level-1\",\"children\":[[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h2\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h2\",\"href\":\"#giới-thiệu\",\"children\":\"Giới thiệu\"}]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h2\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h2\",\"href\":\"#shopify-ecosystem-là-gì\",\"children\":\"Shopify Ecosystem là gì?\"}]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h2\",\"children\":[[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h2\",\"href\":\"#shopify-app-là-gì\",\"children\":\"Shopify App là gì?\"}],[\"$\",\"ol\",null,{\"className\":\"toc-level toc-level-2\",\"children\":[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h3\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h3\",\"href\":\"#ví-dụ-thực-tế\",\"children\":\"Ví dụ thực tế\"}]}]}]]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h2\",\"children\":[[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h2\",\"href\":\"#các-loại-shopify-app\",\"children\":\"Các loại Shopify App\"}],[\"$\",\"ol\",null,{\"className\":\"toc-level toc-level-2\",\"children\":[[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h3\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h3\",\"href\":\"#1-public-apps\",\"children\":\"1. Public Apps\"}]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h3\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h3\",\"href\":\"#2-custom-apps\",\"children\":\"2. Custom Apps\"}]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h3\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h3\",\"href\":\"#3-app-extensions\",\"children\":\"3. App Extensions\"}]}]]}]]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h2\",\"children\":[[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h2\",\"href\":\"#lợi-ích-của-việc-phát-triển-shopify-app\",\"children\":\"Lợi ích của việc phát triển Shopify App\"}],[\"$\",\"ol\",null,{\"className\":\"toc-level toc-level-2\",\"children\":[[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h3\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h3\",\"href\":\"#1-thị-trường-lớn-và-đang-phát-triển\",\"children\":\"1. Thị trường lớn và đang phát triển\"}]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h3\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h3\",\"href\":\"#2-multiple-monetization-models\",\"children\":\"2. Multiple Monetization Models\"}]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h3\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h3\",\"href\":\"#3-platform-handles-infrastructure\",\"children\":\"3. Platform Handles Infrastructure\"}]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h3\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h3\",\"href\":\"#4-developer-friendly-ecosystem\",\"children\":\"4. Developer-friendly Ecosystem\"}]}]]}]]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h2\",\"children\":[[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h2\",\"href\":\"#shopify-app-hoạt-động-như-thế-nào\",\"children\":\"Shopify App hoạt động như thế nào?\"}],[\"$\",\"ol\",null,{\"className\":\"toc-level toc-level-2\",\"children\":[[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h3\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h3\",\"href\":\"#architecture-overview\",\"children\":\"Architecture Overview\"}]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h3\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h3\",\"href\":\"#các-thành-phần-chính\",\"children\":\"Các thành phần chính\"}]}]]}]]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h2\",\"children\":[[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h2\",\"href\":\"#khi-nào-nên-xây-dựng-shopify-app\",\"children\":\"Khi nào nên xây dựng Shopify App?\"}],[\"$\",\"ol\",null,{\"className\":\"toc-level toc-level-2\",\"children\":[[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h3\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h3\",\"href\":\"#-nên-xây-dựng-khi\",\"children\":\"✅ Nên xây dựng khi:\"}]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h3\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h3\",\"href\":\"#-không-nên-xây-dựng-khi\",\"children\":\"❌ Không nên xây dựng khi:\"}]}]]}]]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h2\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h2\",\"href\":\"#quy-trình-phát-triển-shopify-app---overview\",\"children\":\"Quy trình phát triển Shopify App - Overview\"}]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h2\",\"children\":[[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h2\",\"href\":\"#success-stories\",\"children\":\"Success Stories\"}],[\"$\",\"ol\",null,{\"className\":\"toc-level toc-level-2\",\"children\":[[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h3\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h3\",\"href\":\"#bumples\",\"children\":\"Bumples\"}]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h3\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h3\",\"href\":\"#klaviyo\",\"children\":\"Klaviyo\"}]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h3\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h3\",\"href\":\"#yotpo\",\"children\":\"Yotpo\"}]}]]}]]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h2\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h2\",\"href\":\"#key-takeaways\",\"children\":\"Key Takeaways\"}]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h2\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h2\",\"href\":\"#tài-nguyên-tham-khảo\",\"children\":\"Tài nguyên tham khảo\"}]}],[\"$\",\"li\",null,{\"className\":\"toc-item toc-item-h2\",\"children\":[\"$\",\"a\",null,{\"className\":\"toc-link toc-link-h2\",\"href\":\"#tiếp-theo-là-gì\",\"children\":\"Tiếp theo là gì?\"}]}]]}]}],\"\\n\",[\"$\",\"h1\",null,{\"id\":\"shopify-app-là-gì-hướng-dẫn-chi-tiết-cho-người-mới-bắt-đầu\",\"children\":\"Shopify App là gì? Hướng dẫn chi tiết cho người mới bắt đầu\"}],\"\\n\",[\"$\",\"h2\",null,{\"id\":\"giới-thiệu\",\"children\":\"Giới thiệu\"}],\"\\n\",[\"$\",\"p\",null,{\"children\":\"Bạn đang nghe thấy rất nhiều về Shopify App và muốn tìm hiểu cơ hội kinh doanh từ việc phát triển ứng dụng cho nền tảng này? Bài viết này sẽ giúp bạn hiểu rõ từ cơ bản đến chuyên sâu về Shopify App.\"}],\"\\n\",[\"$\",\"hr\",null,{}],\"\\n\",[\"$\",\"h2\",null,{\"id\":\"shopify-ecosystem-là-gì\",\"children\":\"Shopify Ecosystem là gì?\"}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"Shopify là một nền tảng thương mại điện tử (e-commerce platform) cho phép các doanh nghiệp tạo cửa hàng online và bán sản phẩm. Tuy nhiên, không một nền tảng nào có thể đáp ứng tất cả nhu cầu của mọi doanh nghiệp. Đó là lý do \",[\"$\",\"strong\",null,{\"children\":\"Shopify App\"}],\" ra đời.\"]}],\"\\n\",[\"$\",\"figure\",null,{\"data-rehype-pretty-code-figure\":\"\",\"children\":[\"$\",\"pre\",null,{\"style\":{\"backgroundColor\":\"#1F2028\",\"color\":\"#c8d3f5\"},\"tabIndex\":\"0\",\"data-language\":\"mermaid\",\"data-theme\":\"moonlight-ii\",\"children\":[\"$\",\"code\",null,{\"data-language\":\"mermaid\",\"data-theme\":\"moonlight-ii\",\"style\":{\"display\":\"grid\"},\"children\":[[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"graph TD\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    A[Shopify Platform] --\u003e B[Core Features]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    A --\u003e C[Shopify Apps]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":\" \"}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    B --\u003e D[Product Management]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    B --\u003e E[Order Processing]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    B --\u003e F[Payment Gateway]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":\" \"}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    C --\u003e G[Public Apps]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    C --\u003e H[Custom Apps]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    C --\u003e I[Theme Extensions]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":\" \"}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    G --\u003e J[App Store]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    H --\u003e K[Individual Store]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    I --\u003e L[Storefront Customization]\"}]}]]}]}]}],\"\\n\",[\"$\",\"hr\",null,{}],\"\\n\",[\"$\",\"h2\",null,{\"id\":\"shopify-app-là-gì\",\"children\":\"Shopify App là gì?\"}],\"\\n\",[\"$\",\"p\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Shopify App\"}],\" là một ứng dụng bên thứ ba tích hợp vào cửa hàng Shopify để mở rộng chức năng, tự động hóa quy trình hoặc cải thiện trải nghiệm khách hàng.\"]}],\"\\n\",[\"$\",\"h3\",null,{\"id\":\"ví-dụ-thực-tế\",\"children\":\"Ví dụ thực tế\"}],\"\\n\",[\"$\",\"p\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Sticky Add to Cart App\"}],\" - Một app mà merchant có thể cài đặt để hiển thị nút \\\"Add to Cart\\\" cố định khi khách hàng cuộn trang, giúp tăng tỷ lệ chuyển đổi.\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":\"Tính năng chính:\"}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Hiển thị nút mua hàng ở vị trí cố định\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Tự động đồng bộ với variant hiện tại\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Tùy chỉnh màu sắc, vị trí\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Hoạt động trên cả desktop và mobile\"}],\"\\n\"]}],\"\\n\",[\"$\",\"hr\",null,{}],\"\\n\",[\"$\",\"h2\",null,{\"id\":\"các-loại-shopify-app\",\"children\":\"Các loại Shopify App\"}],\"\\n\",[\"$\",\"h3\",null,{\"id\":\"1-public-apps\",\"children\":\"1. Public Apps\"}],\"\\n\",[\"$\",\"p\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Định nghĩa:\"}],\" Apps có sẵn trên Shopify App Store, merchant bất kỳ cũng có thể cài đặt.\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Đặc điểm:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Phải được Shopify review và approve\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Có thể bán hoặc phân phối miễn phí\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Tiếp cận hàng triệu merchant trên toàn cầu\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":[\"Cần tuân thủ \",[\"$\",\"a\",null,{\"href\":\"https://partners.shopify.com/marketplace/app_requirements\",\"children\":\"Shopify App Requirements\"}]]}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Ví dụ:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Apps để đánh giá sản phẩm (Product Reviews)\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Apps để upsell/cross-sell\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Apps để email marketing\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Apps để inventory management\"}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Khi nào nên xây dựng Public App:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Bạn muốn tiếp cận thị trường rộng lớn\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Bạn có giải pháp cho nhiều merchant\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Bạn muốn monetize qua subscription hoặc one-time purchase\"}],\"\\n\"]}],\"\\n\",[\"$\",\"h3\",null,{\"id\":\"2-custom-apps\",\"children\":\"2. Custom Apps\"}],\"\\n\",[\"$\",\"p\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Định nghĩa:\"}],\" Apps được xây dựng riêng cho một hoặc một vài store cụ thể.\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Đặc điểm:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Chỉ có thể cài đặt cho store được chỉ định\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Không cần Shopify review\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Không hiển thị trên App Store\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Thường là dự án custom cho khách hàng\"}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Ví dụ:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"App tích hợp với hệ thống ERP riêng\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"App kết nối với inventory system độc quyền\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"App cho business logic đặc thù\"}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Khi nào nên xây dựng Custom App:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Khách hàng yêu cầu giải pháp riêng\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Chỉ cần phục vụ 1-2 store\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Logic nghiệp vụ quá đặc thù\"}],\"\\n\"]}],\"\\n\",[\"$\",\"h3\",null,{\"id\":\"3-app-extensions\",\"children\":\"3. App Extensions\"}],\"\\n\",[\"$\",\"p\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Định nghĩa:\"}],\" Các thành phần mở rộng hoạt động trong theme Shopify để tùy chỉnh storefront.\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Các loại Extension phổ biến:\"}]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"a) Theme App Extensions:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"App Blocks: Khối content có thể thêm vào theme\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"App Embeds: Script chạy ngầm trên storefront\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Theme App Extensions: Tùy chỉnh giao diện trực tiếp trong theme editor\"}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"b) Web Pixel Extensions:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Theo dõi customer behavior\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Analytics tracking\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Third-party integrations (Google Analytics, Facebook Pixel)\"}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"c) Admin Link Extensions:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Thêm links vào Shopify Admin sidebar\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Điều hướng đến app UI\"}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Ví dụ thực tế:\"}]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"Sticky Add to Cart App sử dụng \",[\"$\",\"strong\",null,{\"children\":\"Theme App Extension\"}],\" để:\"]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Embed JavaScript vào storefront\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Inject web component vào theme\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Tương tác với Shopify Cart API\"}],\"\\n\"]}],\"\\n\",[\"$\",\"hr\",null,{}],\"\\n\",[\"$\",\"h2\",null,{\"id\":\"lợi-ích-của-việc-phát-triển-shopify-app\",\"children\":\"Lợi ích của việc phát triển Shopify App\"}],\"\\n\",[\"$\",\"h3\",null,{\"id\":\"1-thị-trường-lớn-và-đang-phát-triển\",\"children\":\"1. Thị trường lớn và đang phát triển\"}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"2 triệu+\"}],\" active merchants trên Shopify\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"$$444 billion\"}],\" GMV (Gross Merchandise Volume) năm 2023\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"20%+\"}],\" YoY growth\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"h3\",null,{\"id\":\"2-multiple-monetization-models\",\"children\":\"2. Multiple Monetization Models\"}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"a) Recurring Revenue:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Monthly subscription (ví dụ: $9.99/tháng)\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Annual subscription (ví dụ: $99/năm - thường discount 20%)\"}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"b) Usage-based Pricing:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Pay per order\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Pay per 1,000 visitors\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Tiered pricing (Starter, Pro, Enterprise)\"}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"c) One-time Purchase:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Mua vĩnh viễn\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Lifetime license\"}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"d) Freemium Model:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Free plan với features giới hạn\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Paid plans với advanced features\"}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Ví dụ pricing từ Sticky Add to Cart App:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Free:\"}],\" Basic features, limited customization\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Starter ($9.99/tháng):\"}],\" Full customization, analytics\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Pro ($19.99/tháng):\"}],\" Priority support, white-label\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Enterprise:\"}],\" Custom pricing, dedicated support\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"h3\",null,{\"id\":\"3-platform-handles-infrastructure\",\"children\":\"3. Platform Handles Infrastructure\"}],\"\\n\",[\"$\",\"p\",null,{\"children\":\"Bạn không cần lo về:\"}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Payment processing (Shopify handles billing)\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Hosting (deploy wherever you want)\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Authentication (Shopify OAuth)\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Marketplace visibility (App Store traffic)\"}],\"\\n\"]}],\"\\n\",[\"$\",\"h3\",null,{\"id\":\"4-developer-friendly-ecosystem\",\"children\":\"4. Developer-friendly Ecosystem\"}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":[\"Comprehensive \",[\"$\",\"a\",null,{\"href\":\"https://shopify.dev/docs/apps\",\"children\":\"documentation\"}]]}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"CLI tools for rapid development\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":[\"Active community on \",[\"$\",\"a\",null,{\"href\":\"https://community.shopify.com/c/shopify-apps\",\"children\":\"Shopify Community Forums\"}]]}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Sample apps and templates\"}],\"\\n\"]}],\"\\n\",[\"$\",\"hr\",null,{}],\"\\n\",[\"$\",\"h2\",null,{\"id\":\"shopify-app-hoạt-động-như-thế-nào\",\"children\":\"Shopify App hoạt động như thế nào?\"}],\"\\n\",[\"$\",\"h3\",null,{\"id\":\"architecture-overview\",\"children\":\"Architecture Overview\"}],\"\\n\",[\"$\",\"figure\",null,{\"data-rehype-pretty-code-figure\":\"\",\"children\":[\"$\",\"pre\",null,{\"style\":{\"backgroundColor\":\"#1F2028\",\"color\":\"#c8d3f5\"},\"tabIndex\":\"0\",\"data-language\":\"mermaid\",\"data-theme\":\"moonlight-ii\",\"children\":[\"$\",\"code\",null,{\"data-language\":\"mermaid\",\"data-theme\":\"moonlight-ii\",\"style\":{\"display\":\"grid\"},\"children\":[[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"sequenceDiagram\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    participant M as Merchant\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    participant SA as Shopify Admin\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    participant A as Your App\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    participant API as Shopify API\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    participant DB as Your Database\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":\" \"}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    M-\u003e\u003eSA: Click \\\"Install App\\\"\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    SA-\u003e\u003eA: OAuth Request\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    A-\u003e\u003eAPI: Verify credentials\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    API-\u003e\u003eA: Return access token\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    A-\u003e\u003eDB: Store shop info\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    A-\u003e\u003eSA: Redirect to app\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    SA-\u003e\u003eA: Load admin UI\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    A-\u003e\u003eAPI: Fetch shop data\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    A-\u003e\u003eSA: Display dashboard\"}]}]]}]}]}],\"\\n\",[\"$\",\"h3\",null,{\"id\":\"các-thành-phần-chính\",\"children\":\"Các thành phần chính\"}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"1. Backend (Server-side):\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Xử lý OAuth authentication\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"API endpoints cho admin UI\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Webhook handlers\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Business logic\"}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"2. Frontend (Admin UI):\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Dashboard cho merchant\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Settings và configuration\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Analytics và reporting\"}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"3. Storefront Integration:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Theme extensions (blocks, embeds)\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Web components\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Script tags\"}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"4. Database:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Lưu config của từng shop\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"App data\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Analytics data\"}],\"\\n\"]}],\"\\n\",[\"$\",\"hr\",null,{}],\"\\n\",[\"$\",\"h2\",null,{\"id\":\"khi-nào-nên-xây-dựng-shopify-app\",\"children\":\"Khi nào nên xây dựng Shopify App?\"}],\"\\n\",[\"$\",\"h3\",null,{\"id\":\"-nên-xây-dựng-khi\",\"children\":\"✅ Nên xây dựng khi:\"}],\"\\n\",[\"$\",\"ol\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":[\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Bạn đã tìm được vấn đề thực sự:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Phỏng vấn 10+ merchants\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Xác nhận pain point\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Validate giải pháp\"}],\"\\n\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Bạn có technical skills:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Backend development (Node.js, Python, PHP, etc.)\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Frontend development (React, Remix)\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Database management\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"API integration\"}],\"\\n\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Bạn có time và resources:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Development: 2-6 tháng\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Testing: 1-2 tháng\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Shopify review: 1-2 tuần\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Ongoing maintenance\"}],\"\\n\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Market size đủ lớn:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Ít nhất 1,000 potential merchants\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Willingness to pay \u003e$10/tháng\"}],\"\\n\"]}],\"\\n\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"h3\",null,{\"id\":\"-không-nên-xây-dựng-khi\",\"children\":\"❌ Không nên xây dựng khi:\"}],\"\\n\",[\"$\",\"ol\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":[\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Problem không đủ lớn:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Merchants không quan tâm\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Có giải pháp free khác tốt hơn\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"ROI cho merchant không rõ ràng\"}],\"\\n\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Technical complexity quá cao:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Cần chỉnh sửa core Shopify\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Yêu cầu permissions không available\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Performance impact lớn\"}],\"\\n\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Market quá nhỏ:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Chỉ \u003c100 potential users\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Niche quá hẹp\"}],\"\\n\"]}],\"\\n\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"hr\",null,{}],\"\\n\",[\"$\",\"h2\",null,{\"id\":\"quy-trình-phát-triển-shopify-app---overview\",\"children\":\"Quy trình phát triển Shopify App - Overview\"}],\"\\n\",[\"$\",\"p\",null,{\"children\":\"Đây là lộ trình đầy đủ để từ idea đến launch (chi tiết ở các phần sau):\"}],\"\\n\",[\"$\",\"figure\",null,{\"data-rehype-pretty-code-figure\":\"\",\"children\":[\"$\",\"pre\",null,{\"style\":{\"backgroundColor\":\"#1F2028\",\"color\":\"#c8d3f5\"},\"tabIndex\":\"0\",\"data-language\":\"mermaid\",\"data-theme\":\"moonlight-ii\",\"children\":[\"$\",\"code\",null,{\"data-language\":\"mermaid\",\"data-theme\":\"moonlight-ii\",\"style\":{\"display\":\"grid\"},\"children\":[[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"graph LR\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    A[Part 1: Idea \u0026 Validation] --\u003e B[Part 2: Setup \u0026 Tools]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    B --\u003e C[Part 3: Create Project]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    C --\u003e D[Part 4: Authentication]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    D --\u003e E[Part 5: Admin UI]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    E --\u003e F[Part 6: Database]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    F --\u003e G[Part 7: API Integration]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    G --\u003e H[Part 8: Theme Extensions]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    H --\u003e I[Part 9: Webhooks]\"}]}],\"\\n\",[\"$\",\"span\",null,{\"data-line\":\"\",\"children\":[\"$\",\"span\",null,{\"style\":{\"color\":\"#C8D3F5\"},\"children\":\"    I --\u003e J[Part 10: Testing \u0026 Launch]\"}]}]]}]}]}],\"\\n\",[\"$\",\"hr\",null,{}],\"\\n\",[\"$\",\"h2\",null,{\"id\":\"success-stories\",\"children\":\"Success Stories\"}],\"\\n\",[\"$\",\"h3\",null,{\"id\":\"bumples\",\"children\":\"Bumples\"}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Problem:\"}],\" Merchants cần custom checkout fields\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Solution:\"}],\" App thêm custom fields vào checkout\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Result:\"}],\" Acquired by Shopify for undisclosed amount\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"h3\",null,{\"id\":\"klaviyo\",\"children\":\"Klaviyo\"}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Problem:\"}],\" Email marketing automation for e-commerce\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Solution:\"}],\" Deep Shopify integration + powerful automation\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Result:\"}],\" IPO'd with $9B+ valuation\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"h3\",null,{\"id\":\"yotpo\",\"children\":\"Yotpo\"}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Problem:\"}],\" Customer reviews and user-generated content\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Solution:\"}],\" All-in-one marketing platform\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Result:\"}],\" $100M+ ARR, 100,000+ merchants\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"hr\",null,{}],\"\\n\",[\"$\",\"h2\",null,{\"id\":\"key-takeaways\",\"children\":\"Key Takeaways\"}],\"\\n\",[\"$\",\"ol\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":[\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Shopify App = Business Opportunity\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"2M+ potential customers\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Multiple monetization models\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Platform handles infrastructure\"}],\"\\n\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"3 Main Types:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Public Apps:\"}],\" Sell on App Store\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Custom Apps:\"}],\" One-off projects\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[[\"$\",\"strong\",null,{\"children\":\"Extensions:\"}],\" Storefront customization\"]}],\"\\n\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Validate before build:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Talk to merchants first\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Confirm pain point\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Ensure market size\"}],\"\\n\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Technical skills required:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Backend + Frontend\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Database management\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"API integration\"}],\"\\n\"]}],\"\\n\"]}],\"\\n\"]}],\"\\n\",[\"$\",\"hr\",null,{}],\"\\n\",[\"$\",\"h2\",null,{\"id\":\"tài-nguyên-tham-khảo\",\"children\":\"Tài nguyên tham khảo\"}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Official Shopify Resources:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"https://shopify.dev/docs/apps\",\"children\":\"Shopify App Documentation\"}]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"https://shopify.dev/docs/apps/getting-started\",\"children\":\"Getting Started Guide\"}]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"https://partners.shopify.com/marketplace/app_requirements\",\"children\":\"App Requirements Checklist\"}]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"https://partners.shopify.com/marketplace/app_requirements\",\"children\":\"App Store Review Guidelines\"}]}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"strong\",null,{\"children\":\"Community:\"}]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"https://discord.gg/shopify\",\"children\":\"Shopify Devs Discord\"}]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"https://community.shopify.com/c/shopify-apps\",\"children\":\"Shopify Community Forums\"}]}],\"\\n\",[\"$\",\"li\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"https://www.youtube.com/@shopifypartners\",\"children\":\"Shopify Partners YouTube\"}]}],\"\\n\"]}],\"\\n\",[\"$\",\"hr\",null,{}],\"\\n\",[\"$\",\"h2\",null,{\"id\":\"tiếp-theo-là-gì\",\"children\":\"Tiếp theo là gì?\"}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"Đây là \",[\"$\",\"strong\",null,{\"children\":\"Phần 1\"}],\" trong series \\\"Hướng dẫn phát triển Shopify App từ A đến Z\\\".\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"Trong \",[\"$\",\"strong\",null,{\"children\":\"Phần 2\"}],\", tôi sẽ hướng dẫn:\"]}],\"\\n\",[\"$\",\"ul\",null,{\"children\":[\"\\n\",[\"$\",\"li\",null,{\"children\":\"Kiến thức và công cụ cần chuẩn bị\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Cài đặt development environment\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Tạo Shopify Partner account\"}],\"\\n\",[\"$\",\"li\",null,{\"children\":\"Setup development store\"}],\"\\n\"]}],\"\\n\",[\"$\",\"p\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/blog/chuan-bi-kien-thuc-shopify-app\",\"children\":\"Đọc Phần 2: Chuẩn bị kiến thức và công cụ →\"}]}]]],null],null]},[\"$\",\"$L4\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"blog\",\"children\",\"shopify-app-la-gi\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L5\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"styles\":null}],null]},[[\"$\",\"div\",null,{\"className\":\"\",\"children\":[[\"$\",\"$L6\",null,{\"href\":\"/\",\"className\":\"text-blue-500 hover:text-blue-700\",\"children\":\" Back to home\"}],[\"$\",\"article\",null,{\"className\":\"mt-4\",\"children\":[\"$\",\"$L4\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"blog\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L5\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"styles\":null}]}]]}],null],null]},[[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[[\"$\",\"head\",null,{\"children\":[\"$\",\"link\",null,{\"rel\":\"stylesheet\",\"href\":\"https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css\"}]}],[\"$\",\"body\",null,{\"className\":\"antialiased max-w-screen-md mx-auto py-0 px-4 md:py-16\",\"children\":[\"$\",\"$L4\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L5\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"styles\":null}]}]]}],null],null],\"couldBeIntercepted\":false,\"initialHead\":[false,\"$L7\"],\"globalErrorComponent\":\"$8\",\"missingSlots\":\"$W9\"}]]\n"])</script><script>self.__next_f.push([1,"7:[[\"$\",\"meta\",\"0\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"meta\",\"1\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"2\",{\"children\":\"Shopify App là gì? Hướng dẫn chi tiết cho người mới bắt đầu\"}],[\"$\",\"meta\",\"3\",{\"name\":\"description\",\"content\":\"Tìm hiểu về Shopify App, các loại app, lợi ích và cách kiếm tiền từ việc phát triển ứng dụng cho nền tảng Shopify.\"}]]\n3:null\n"])</script></body></html>
