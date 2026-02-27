@@ -1,0 +1,607 @@
+export const metadata = {
+  title: 'Shopify Theme Extensions và Web Components - Hướng dẫn chi tiết',
+  description: 'Hướng dẫn tạo Theme App Extensions và Web Components để tùy chỉnh storefront cho Shopify App.',
+}
+
+# Shopify Theme Extensions và Web Components
+
+## Giới thiệu
+
+Theme Extensions cho phép app tùy chỉnh giao diện storefront mà không cần chỉnh sửa theme code. Bài viết này sẽ hướng dẫn xây dựng extensions và web components.
+
+---
+
+## Theme App Extensions Overview
+
+### Extension Types
+
+**1. App Blocks**
+- Content blocks trong theme sections
+- Merchant có thể add/remove via theme editor
+- Perfect cho customizable widgets
+
+**2. App Embeds**
+- Scripts chạy ngầm trên toàn storefront
+- Không cần merchant action
+- Ideal cho tracking, analytics
+
+**3. Theme App Extensions**
+- Tùy chỉnh giao diện trực tiếp trong theme editor
+- Settings panel cho merchant
+- Powerful visual customization
+
+---
+
+## App Blocks
+
+### Create App Block
+
+**File structure:**
+```
+extensions/my-extension/
+├── blocks/
+│   └── my-widget.liquid
+├── assets/
+│   ├── my-widget.js
+│   └── my-widget.css
+├── locales/
+│   └── en.default.json
+└── shopify.extension.toml
+```
+
+**blocks/my-widget.liquid:**
+```liquid
+{% schema %}
+{
+  "name": "My Widget",
+  "target": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Welcome"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border",
+      "label": "Show Border",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
+
+<div class="my-widget" style="background-color: {{ block.settings.background_color }}">
+  {% if block.settings.show_border %}
+    <div class="my-widget-border">
+  {% endif %}
+
+  <h2>{{ block.settings.heading }}</h2>
+
+  <!-- Load JavaScript -->
+  <script src="{{ 'my-widget.js' | asset_url }}" defer></script>
+
+  {% if block.settings.show_border %}
+    </div>
+  {% endif %}
+</div>
+```
+
+**JavaScript Module:**
+```javascript
+// assets/my-widget.js
+class MyWidget extends HTMLElement {
+  connectedCallback() {
+    // Component mounted
+    this.init();
+
+    // Listen for settings changes
+    document.addEventListener('shopify:section:load', (event) => {
+      if (event.target.contains(this)) {
+        this.init();
+      }
+    });
+  }
+
+  init() {
+    const heading = this.querySelector('h2');
+    console.log('Widget initialized:', heading.textContent);
+
+    // Add interactivity
+    this.addEventListener('click', this.handleClick.bind(this));
+  }
+
+  handleClick() {
+    console.log('Widget clicked!');
+  }
+}
+
+customElements.define('my-widget', MyWidget);
+```
+
+---
+
+## App Embeds
+
+### Create App Embed
+
+**extensions/my-extension/embeds/my-script.liquid:**
+```liquid
+{% schema %}
+{
+  "name": "My App Script",
+  "target": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Enable Script",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "config_data",
+      "label": "Configuration"
+    }
+  ]
+}
+{% endschema %}
+
+{% if block.settings.enabled %}
+  <!-- Load app script -->
+  <script src="{{ 'my-app.js' | asset_url }}" defer></script>
+
+  <!-- Pass config to script -->
+  <script>
+    window.MY_APP_CONFIG = {{ block.settings | json }};
+  </script>
+{% endif %}
+```
+
+---
+
+## Preact Web Components
+
+### Setup
+
+```bash
+# Trong extension directory
+npm install preact @preact/signals
+```
+
+### Create Web Component
+
+```tsx
+// src/components/StickyAddToCart.tsx
+import { signal } from "@preact/signals";
+
+// State management với signals
+const config = signal({
+  enabled: false,
+  buttonColor: "#000000"
+});
+
+// Fetch config từ server
+async function loadConfig() {
+  const response = await fetch('/api/config');
+  const data = await response.json();
+  config.value = data;
+}
+
+function StickyAddToCart() {
+  const handleClick = async () => {
+    // Get current variant from Shopify
+    const variantId = getCurrentVariantId();
+
+    // Add to cart
+    const response = await fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{
+          id: variantId,
+          quantity: 1
+        }]
+      })
+    });
+
+    if (response.ok) {
+      // Update cart count
+      updateCartCount();
+    }
+  };
+
+  return (
+    <div
+      class="sticky-add-to-cart"
+      style={{
+        position: 'fixed',
+        bottom: '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        backgroundColor: config.value.buttonColor
+      }}
+    >
+      <button onClick={handleClick}>
+        Add to Cart
+      </button>
+    </div>
+  );
+}
+
+// Register as custom element
+customElements.define(
+  'sticky-add-to-cart',
+  wrapSignal(StickyAddToCart)
+);
+```
+
+### Build Web Component
+
+```bash
+# Build với Preact
+npm run build
+
+# Outputs:
+# dist/sticky-add-to-cart.js
+# dist/sticky-add-to-cart.css
+```
+
+### Use in Extension
+
+```liquid
+<!-- embeds/sticky-cart.liquid -->
+{% schema %}
+{
+  "name": "Sticky Add to Cart",
+  "target": "section",
+  "settings": []
+}
+{% endschema %}
+
+<!-- Load web component -->
+<script src="{{ 'sticky-add-to-cart.js' | asset_url }}" defer></script>
+
+<!-- Render component -->
+<sticky-add-to-cart></sticky-add-to-cart>
+```
+
+---
+
+## Passing Data to Storefront
+
+### Using Metafields
+
+**Admin API - Set Metafield:**
+```typescript
+// Server-side
+const response = await admin.graphql(`
+  mutation SetMetafield($metafieldsSetInput: [MetafieldsSetInput!]!) {
+    metafieldsSet(metafields: $metafieldsSetInput) {
+      metafields {
+        namespace
+        key
+        value
+        type
+      }
+    }
+  }
+`, {
+  variables: {
+    metafieldsSetInput: [{
+      namespace: "my_app",
+      key: "config",
+      value: JSON.stringify({
+        enabled: true,
+        buttonColor: "#000000",
+        position: "bottom"
+      }),
+      type: "json",
+      ownerId: `gid://shopify/Shop/${shop}`
+    }]
+  }
+});
+```
+
+**Storefront - Read Metafield:**
+```liquid
+<!-- Trong Liquid template -->
+{% assign app_config = shop.metafields.my_app.config %}
+
+<script>
+  window.APP_CONFIG = {{ app_config.value | json }};
+</script>
+
+<my-component config="{{ app_config.value }}"></my-component>
+```
+
+### Using Script Tag Attributes
+
+```liquid
+<!-- Pass config via data attributes -->
+<my-component
+  data-config="{{ shop.metafields.my_app.config }}"
+  data-shop="{{ shop.permanent_domain }}"
+></my-component>
+```
+
+```javascript
+class MyComponent extends HTMLElement {
+  connectedCallback() {
+    const config = this.dataset.config;
+    const shop = this.dataset.shop;
+
+    console.log('Config:', JSON.parse(config));
+    console.log('Shop:', shop);
+  }
+}
+```
+
+---
+
+## Shopify Cart API Integration
+
+### Add to Cart
+
+```typescript
+// Web component
+async function addToCart(variantId: string, quantity: number = 1) {
+  try {
+    const response = await fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{
+          id: variantId,
+          quantity: quantity
+        }]
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to add to cart');
+    }
+
+    const data = await response.json();
+    console.log('Added to cart:', data);
+
+    // Trigger cart update event
+    document.dispatchEvent(new CustomEvent('cart:added'));
+
+    return data;
+  } catch (error) {
+    console.error('Error adding to cart:', error);
+  }
+}
+```
+
+### Get Cart
+
+```typescript
+async function getCart() {
+  const response = await fetch('/cart.js');
+  const cart = await response.json();
+
+  return {
+    items: cart.items,
+    total_price: cart.total_price,
+    item_count: cart.item_count
+  };
+}
+```
+
+### Update Cart Item
+
+```typescript
+async function updateCartItem(line: number, quantity: number) {
+  const response = await fetch('/cart/change.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      line: line,
+      quantity: quantity
+    })
+  });
+
+  return await response.json();
+}
+```
+
+---
+
+## Best Practices
+
+### 1. Shadow DOM Isolation
+
+```javascript
+class MyComponent extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
+
+  connectedCallback() {
+    this.shadowRoot.innerHTML = `
+      <style>
+        /* Isolated styles */
+        .my-component {
+          background: white;
+        }
+      </style>
+      <div class="my-component">Content</div>
+    `;
+  }
+}
+```
+
+### 2. Performance Optimization
+
+```javascript
+// Lazy load components
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        loadComponent();
+        observer.unobserve(entry.target);
+      }
+    });
+  });
+
+  observer.observe(document.querySelector('.component-trigger'));
+}
+```
+
+### 3. Mobile Responsiveness
+
+```css
+/* Mobile-first styles */
+.my-component {
+  padding: 12px;
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  .my-component {
+    padding: 24px;
+    font-size: 16px;
+  }
+}
+```
+
+---
+
+## Testing Extensions
+
+### Local Testing
+
+```bash
+# Start extension dev server
+shopify app dev
+
+# 1. CLI builds extension
+# 2. Updates theme in development store
+# 3. Opens theme editor
+```
+
+### Theme Editor Testing
+
+1. Open theme editor
+2. Add App Block to section
+3. Adjust settings
+4. Test on mobile preview
+5. Test on different themes
+
+---
+
+## Real-world Example
+
+```typescript
+// packages/web-components/src/StickyAddToCartApp.tsx
+import { signal, computed } from "@preact/signals";
+
+// Config
+const config = signal({
+  enabled: false,
+  buttonColor: "#000000",
+  textColor: "#FFFFFF",
+  borderRadius: "4px",
+  position: "bottom" as const
+});
+
+// Cart state
+const cartCount = signal(0);
+
+// Computed values
+const isVisible = computed(() =>
+  config.value.enabled && cartCount.value > 0
+);
+
+function StickyAddToCartApp() {
+  // Load config on mount
+  useEffect(() => {
+    loadAppConfig();
+    updateCartCount();
+  }, []);
+
+  // Handle add to cart
+  const handleAddToCart = async () => {
+    const variantId = getCurrentVariantId();
+
+    await fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ id: variantId, quantity: 1 }]
+      })
+    });
+
+    updateCartCount();
+  };
+
+  return (
+    <div
+      class="sticky-add-to-cart"
+      style={{
+        display: isVisible.value ? 'block' : 'none',
+        position: 'fixed',
+        [config.value.position]: '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 9999
+      }}
+    >
+      <button
+        onClick={handleAddToCart}
+        style={{
+          backgroundColor: config.value.buttonColor,
+          color: config.value.textColor,
+          borderRadius: config.value.borderRadius,
+          padding: '12px 24px',
+          border: 'none',
+          cursor: 'pointer'
+        }}
+      >
+        Add to Cart
+      </button>
+    </div>
+  );
+}
+
+// Register
+customElements.define(
+  'sticky-add-to-cart',
+  wrapSignal(StickyAddToCartApp)
+);
+```
+
+---
+
+## Key Takeaways
+
+1. **App Blocks** - Content merchant can customize
+2. **App Embeds** - Scripts run globally
+3. **Preact Signals** - Reactive state management
+4. **Shadow DOM** - CSS isolation
+5. **Cart API** - Interact with Shopify cart
+
+---
+
+## Next Steps
+
+Trong **Phần 9**, bạn sẽ học:
+- Webhook fundamentals
+- Common webhooks (app/uninstalled, orders/create)
+- HMAC verification
+- Background jobs
+
+[Đọc Phần 9: Webhooks & Background Jobs →](/blog/shopify-webhooks-background-jobs)
+
+[← Quay lại Phần 7: API Integration](/blog/shopify-api-integration)

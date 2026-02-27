@@ -1,0 +1,651 @@
+export const metadata = {
+  title: 'Database Design với MongoDB cho Shopify App - Hướng dẫn chi tiết',
+  description: 'Hướng dẫn thiết kế database, implement Repository Pattern và sử dụng Mongoose cho Shopify App.',
+}
+
+# Database Design với MongoDB cho Shopify App
+
+## Giới thiệu
+
+Database là nơi lưu trữ configuration và data của app. Bài viết này sẽ hướng dẫn thiết kế schema hiệu quả cho Shopify App sử dụng MongoDB.
+
+---
+
+## Tại sao MongoDB cho Shopify Apps?
+
+### Ưu điểm
+
+**1. Flexible Schema**
+- Dễ dàng thêm fields mới
+- Khác nhau giữa các shops
+- Phù hợp cho SaaS apps
+
+**2. Scalability**
+- Horizontal scaling
+- Sharding support
+- Cloud options (MongoDB Atlas)
+
+**3. Document Structure**
+- Nested objects
+- Arrays support
+- JSON-like documents
+
+**4. Developer Friendly**
+- JavaScript/TypeScript native
+- Mongoose ODM
+- Easy prototyping
+
+---
+
+## Schema Design Principles
+
+### 1. Per-Shop Data Isolation
+
+**❌ BAD: Một collection cho tất cả data**
+
+```typescript
+// Không nên - data lẫn lộn
+{
+  shop: "shop1.myshopify.com",
+  type: "config",
+  data: {...}
+}
+```
+
+**✅ GOOD: Shop-specific models**
+
+```typescript
+// Nên - mỗi model cho một shop
+{
+  _id: ObjectId("..."),
+  shop: "shop1.myshopify.com",  // Unique index
+  settings: {...}
+}
+```
+
+### 2. Reference vs Embedded
+
+**Embedded (thường tốt hơn):**
+```typescript
+// Product settings embedded trong config
+{
+  shop: "shop1.myshopify.com",
+  productSettings: {
+    showPrice: true,
+    showVariant: true,
+    currency: "USD"
+  }
+}
+```
+
+**Reference (khi data quá lớn):**
+```typescript
+// Reference sang analytics events
+{
+  shop: "shop1.myshopify.com",
+  eventIds: [ObjectId("..."), ObjectId("...")]
+}
+```
+
+---
+
+## Common Schemas
+
+### 1. Config Schema
+
+Lưu trữ app configuration cho mỗi shop.
+
+```typescript
+// app/models/config.model.ts
+import mongoose, { Schema } from "mongoose";
+
+interface IConfig {
+  shop: string;
+  settings: {
+    enabled: boolean;
+    buttonColor: string;
+    buttonTextColor: string;
+    position: "top" | "bottom";
+    borderRadius: string;
+    padding: string;
+    fontSize: string;
+  };
+  themeExtension: {
+    enabled: boolean;
+    themeId?: string;
+  };
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const configSchema = new Schema<IConfig>({
+  shop: {
+    type: String,
+    required: true,
+    unique: true,
+    index: true
+  },
+  settings: {
+    enabled: { type: Boolean, default: false },
+    buttonColor: { type: String, default: "#000000" },
+    buttonTextColor: { type: String, default: "#FFFFFF" },
+    position: { type: String, enum: ["top", "bottom"], default: "bottom" },
+    borderRadius: { type: String, default: "4px" },
+    padding: { type: String, default: "12px 24px" },
+    fontSize: { type: String, default: "16px" }
+  },
+  themeExtension: {
+    enabled: { type: Boolean, default: false },
+    themeId: { type: String }
+  },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+}, {
+  timestamps: true  // Auto-manage createdAt, updatedAt
+});
+
+// Indexes
+configSchema.index({ shop: 1 });
+configSchema.index({ "settings.enabled": 1 });
+configSchema.index({ "themeExtension.enabled": 1 });
+
+export const Config = mongoose.model<IConfig>("Config", configSchema);
+```
+
+### 2. Store Schema
+
+Lưu trữ thông tin về shop và onboarding status.
+
+```typescript
+// app/models/store.model.ts
+import mongoose, { Schema } from "mongoose";
+
+interface IStore {
+  shop: string;
+  shopName: string;
+  contactEmail: string;
+  primaryDomain: string;
+  shopPlan: string;
+  themeId: string;
+
+  // Onboarding
+  onboardingCompleted: boolean;
+  onboardingStep: number;
+
+  // App status
+  installedAt: Date;
+  uninstalledAt?: Date;
+  isActive: boolean;
+
+  // Review tracking
+  hasReviewed: boolean;
+  reviewTouchpoints: {
+    setupCompletedShown: boolean;
+    milestoneReachedShown: boolean;
+  };
+
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const storeSchema = new Schema<IStore>({
+  shop: {
+    type: String,
+    required: true,
+    unique: true,
+    index: true
+  },
+  shopName: String,
+  contactEmail: String,
+  primaryDomain: String,
+  shopPlan: String,
+  themeId: String,
+
+  onboardingCompleted: { type: Boolean, default: false },
+  onboardingStep: { type: Number, default: 0 },
+
+  installedAt: { type: Date, default: Date.now },
+  uninstalledAt: Date,
+  isActive: { type: Boolean, default: true },
+
+  hasReviewed: { type: Boolean, default: false },
+  reviewTouchpoints: {
+    setupCompletedShown: { type: Boolean, default: false },
+    milestoneReachedShown: { type: Boolean, default: false }
+  },
+
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+}, {
+  timestamps: true
+});
+
+export const Store = mongoose.model<IStore>("Store", storeSchema);
+```
+
+### 3. Analytics Schema
+
+Lưu trữ analytics events với TTL để tự động cleanup.
+
+```typescript
+// app/models/analytics.model.ts
+import mongoose, { Schema } from "mongoose";
+
+interface IAnalyticsEvent {
+  shop: string;
+  eventType: "impression" | "click" | "add_to_cart" | "order";
+  deviceType: "desktop" | "mobile";
+  sessionId: string;
+
+  // Event data
+  productId?: string;
+  variantId?: string;
+  value?: number;
+
+  // Timestamp
+  timestamp: Date;
+
+  // TTL index - auto delete sau 90 days
+  createdAt: Date;
+}
+
+const analyticsSchema = new Schema<IAnalyticsEvent>({
+  shop: {
+    type: String,
+    required: true,
+    index: true
+  },
+  eventType: {
+    type: String,
+    enum: ["impression", "click", "add_to_cart", "order"],
+    required: true,
+    index: true
+  },
+  deviceType: {
+    type: String,
+    enum: ["desktop", "mobile"],
+    required: true
+  },
+  sessionId: { type: String, index: true },
+  productId: String,
+  variantId: String,
+  value: Number,
+  timestamp: { type: Date, default: Date.now, index: true },
+  createdAt: { type: Date, default: Date.now, expires: 7776000 } // 90 days TTL
+}, {
+  timestamps: false  // Don't auto-update timestamps
+});
+
+// Compound indexes cho query performance
+analyticsSchema.index({ shop: 1, timestamp: -1 });
+analyticsSchema.index({ eventType: 1, timestamp: -1 });
+analyticsSchema.index({ sessionId: 1, timestamp: 1 });
+
+export const AnalyticsEvent = mongoose.model<IAnalyticsEvent>(
+  "AnalyticsEvent",
+  analyticsSchema
+);
+```
+
+---
+
+## Repository Pattern
+
+Repository Pattern tách biệt data access logic khỏi business logic.
+
+### Implementation
+
+```typescript
+// app/repositories/config.repository.ts
+import { Config } from "../models/config.model";
+
+export async function findByShop(shop: string) {
+  return await Config.findOne({ shop });
+}
+
+export async function findOrCreate(shop: string) {
+  let config = await findByShop(shop);
+
+  if (!config) {
+    config = await Config.create({ shop });
+  }
+
+  return config;
+}
+
+export async function update(
+  shop: string,
+  data: Partial<IConfig>
+) {
+  return await Config.findOneAndUpdate(
+    { shop },
+    { $set: { ...data, updatedAt: new Date() } },
+    { upsert: true, new: true }
+  );
+}
+
+export async function updateSettings(
+  shop: string,
+  settings: IConfig["settings"]
+) {
+  return await Config.findOneAndUpdate(
+    { shop },
+    { $set: { settings, updatedAt: new Date() } },
+    { new: true }
+  );
+}
+
+export async function deleteByShop(shop: string) {
+  return await Config.deleteOne({ shop });
+}
+
+export async function findAllActive() {
+  return await Config.find({
+    "settings.enabled": true,
+    "themeExtension.enabled": true
+  });
+}
+```
+
+### Store Repository
+
+```typescript
+// app/repositories/store.repository.ts
+import { Store } from "../models/store.model";
+
+export async function findByShop(shop: string) {
+  return await Store.findOne({ shop });
+}
+
+export async function findOrCreate(shop: string) {
+  let store = await findByShop(shop);
+
+  if (!store) {
+    store = await Store.create({ shop });
+  }
+
+  return store;
+}
+
+export async function markInstalled(shop: string, data: {
+  shopName: string;
+  contactEmail: string;
+  primaryDomain: string;
+  themeId: string;
+  shopPlan: string;
+}) {
+  return await Store.findOneAndUpdate(
+    { shop },
+    {
+      $set: {
+        ...data,
+        installedAt: new Date(),
+        isActive: true,
+        uninstalledAt: null
+      }
+    },
+    { upsert: true, new: true }
+  );
+}
+
+export async function markUninstalled(shop: string) {
+  return await Store.findOneAndUpdate(
+    { shop },
+    {
+      $set: {
+        isActive: false,
+        uninstalledAt: new Date()
+      }
+    },
+    { new: true }
+  );
+}
+
+export async function updateOnboarding(
+  shop: string,
+  step: number,
+  completed: boolean
+) {
+  return await Store.findOneAndUpdate(
+    { shop },
+    {
+      $set: {
+        onboardingStep: step,
+        onboardingCompleted: completed
+      }
+    },
+    { new: true }
+  );
+}
+
+export async function getAllActive() {
+  return await Store.find({
+    isActive: true,
+    onboardingCompleted: true
+  });
+}
+```
+
+---
+
+## MongoDB Connection Management
+
+### Mongoose Connection
+
+```typescript
+// app/mongoose.server.ts
+import mongoose from "mongoose";
+
+const MONGODB_URI = process.env.MONGODB_URI!;
+
+if (!MONGODB_URI) {
+  throw new Error("MONGODB_URI is not defined");
+}
+
+// Connection caching
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+export async function connectToMongoDB() {
+  if (cached.conn) {
+    return cached.conn;
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+    };
+
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      return mongoose;
+    });
+  }
+
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
+  }
+
+  return cached.conn;
+}
+
+// Event listeners
+mongoose.connection.on("connected", () => {
+  console.log("MongoDB connected successfully");
+});
+
+mongoose.connection.on("error", (err) => {
+  console.error("MongoDB connection error:", err);
+});
+
+mongoose.connection.on("disconnected", () => {
+  console.log("MongoDB disconnected");
+});
+```
+
+---
+
+## Data Validation
+
+### Mongoose Validation
+
+```typescript
+const configSchema = new Schema({
+  buttonColor: {
+    type: String,
+    validate: {
+      validator: function(v: string) {
+        return /^#[0-9A-F]{6}$/i.test(v);
+      },
+      message: (props) => `${props.value} is not a valid hex color!`
+    }
+  },
+  position: {
+    type: String,
+    enum: {
+      values: ["top", "bottom"],
+      message: "{VALUE} is not supported"
+    }
+  }
+});
+```
+
+### Zod Schema Validation
+
+```typescript
+// app/validators/config.validator.ts
+import { z } from "zod";
+
+export const configSchema = z.object({
+  buttonColor: z.string().regex(/^#[0-9A-F]{6}$/i, "Invalid color format"),
+  position: z.enum(["top", "bottom"], {
+    errorMap: () => ({ message: "Position must be 'top' or 'bottom'" })
+  }),
+  enabled: z.boolean().default(false),
+  borderRadius: z.string().optional(),
+  padding: z.string().optional(),
+  fontSize: z.string().optional()
+});
+
+export type ConfigInput = z.infer<typeof configSchema>;
+
+export function validateConfig(data: unknown) {
+  return configSchema.parse(data);
+}
+```
+
+---
+
+## Usage in Routes
+
+```tsx
+// app/routes/app.customizer.tsx
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { session } = await authenticate.admin(request);
+  const shop = session.shop;
+
+  // Repository pattern
+  const config = await configRepository.findByShop(shop);
+
+  return json({ config });
+};
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const { session } = await authenticate.admin(request);
+  const shop = session.shop;
+
+  const formData = await request.formData();
+
+  // Validate
+  const settings = validateConfig({
+    buttonColor: formData.get("buttonColor"),
+    position: formData.get("position"),
+    enabled: formData.get("enabled") === "true"
+  });
+
+  // Save
+  const config = await configRepository.updateSettings(shop, settings);
+
+  return json({ success: true, config });
+};
+```
+
+---
+
+## Best Practices
+
+### 1. Use Indexes Wisely
+
+```typescript
+// ✅ Good - Compound index
+schema.index({ shop: 1, timestamp: -1 });
+
+// ❌ Bad - Too many indexes
+schema.index({ shop: 1 });
+schema.index({ shop: 1, settings: 1 });
+schema.index({ shop: 1, themeExtension: 1 });
+```
+
+### 2. TTL for Temporary Data
+
+```typescript
+// Auto delete sau 90 days
+new Schema({
+  createdAt: { type: Date, expires: 7776000 }
+});
+```
+
+### 3. Connection Pooling
+
+```typescript
+mongoose.connect(uri, {
+  maxPoolSize: 10,
+  minPoolSize: 5,
+  socketTimeoutMS: 45000
+});
+```
+
+### 4. Error Handling
+
+```typescript
+try {
+  const config = await configRepository.findByShop(shop);
+} catch (error) {
+  if (error instanceof mongoose.Error.ValidationError) {
+    // Handle validation errors
+  } else if (error instanceof mongoose.Error.CastError) {
+    // Handle type errors
+  } else {
+    // Handle other errors
+  }
+}
+```
+
+---
+
+## Key Takeaways
+
+1. **Per-shop isolation** - Mỗi shop có document riêng
+2. **Repository pattern** - Tách biệt data access
+3. **Indexes** - Optimize query performance
+4. **TTL** - Auto cleanup temporary data
+5. **Validation** - Mongoose + Zod combo
+
+---
+
+## Next Steps
+
+Trong **Phần 7**, bạn sẽ học:
+- Shopify GraphQL API
+- Querying products, orders
+- Mutations
+- Rate limiting
+
+[Đọc Phần 7: Shopify API Integration →](/blog/shopify-api-integration)
+
+[← Quay lại Phần 5: Admin UI](/blog/xay-dung-admin-ui-remix-polaris)

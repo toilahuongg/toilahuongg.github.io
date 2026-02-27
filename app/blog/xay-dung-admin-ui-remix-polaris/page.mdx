@@ -1,0 +1,607 @@
+export const metadata = {
+  title: 'Xây dựng Admin UI với Remix và Polaris - Hướng dẫn chi tiết',
+  description: 'Hướng dẫn xây dựng giao diện admin cho Shopify App sử dụng Remix framework và Polaris design system.',
+}
+
+# Xây dựng Admin UI với Remix và Polaris
+
+## Giới thiệu
+
+Merchant sẽ tương tác với app của bạn qua Admin UI. Bài viết này sẽ hướng dẫn xây dựng giao diện đẹp, nhất quán với Shopify bằng Remix và Polaris.
+
+---
+
+## Remix Framework Overview
+
+### Tại sao Remix?
+
+**Remix** là full-stack framework được Shopify recommend cho các lý do:
+- **Nested routing** - Layout sharing
+- **Data loading** - Loaders run parallel
+- **Form handling** - Built-in action handling
+- **TypeScript first** - Type-safe development
+- **Great UX** - Optimistic UI, transitions
+
+### Route Convention
+
+```
+app/routes/
+├── app._index.tsx           → /app
+├── app.settings.tsx         → /app/settings
+├── app.analytics.tsx        → /app/analytics
+├── api.config.tsx           → /api/config
+└── webhooks.uninstalled.tsx → /webhooks/uninstalled
+```
+
+---
+
+## Polaris Design System
+
+### Polaris là gì?
+
+**Shopify Polaris** là design system đảm bảo:
+- Nhất quán với Shopify Admin
+- Accessible (WCAG 2.1 AA compliant)
+- Mobile-responsive
+- Internationalization support
+
+### Common Components
+
+**Layout Components:**
+```tsx
+import { Page, Layout, Card, BlockStack, InlineStack } from "@shopify/polaris";
+
+export default function Dashboard() {
+  return (
+    <Page title="Dashboard">
+      <Layout>
+        <Layout.Section>
+          <Card>
+            <BlockStack gap="400">
+              {/* Content */}
+            </BlockStack>
+          </Card>
+        </Layout.Section>
+        <Layout.Section variant="oneThird">
+          <Card>
+            {/* Sidebar */}
+          </Card>
+        </Layout.Section>
+      </Layout>
+    </Page>
+  );
+}
+```
+
+**Form Components:**
+```tsx
+import {
+  TextField,
+  Select,
+  Checkbox,
+  ColorPicker,
+  FormLayout
+} from "@shopify/polaris";
+
+export default function SettingsForm() {
+  return (
+    <FormLayout>
+      <TextField label="App name" />
+      <Select label="Position" options={[
+        {label: 'Top', value: 'top'},
+        {label: 'Bottom', value: 'bottom'}
+      ]} />
+      <Checkbox label="Enable feature" />
+      <ColorPicker label="Brand color" />
+    </FormLayout>
+  );
+}
+```
+
+---
+
+## Building Dashboard Page
+
+### Full Example
+
+```tsx
+// app/routes/app._index.tsx
+import { json, type LoaderFunctionArgs } from "@remix-run/node";
+import { useLoaderData, useNavigate } from "@remix-run/react";
+import {
+  Card,
+  Page,
+  Layout,
+  Text,
+  BlockStack,
+  InlineStack,
+  Badge,
+  Button,
+  ButtonGroup,
+} from "@shopify/polaris";
+import { authenticate } from "../shopify.server";
+import * as configRepository from "../repositories/config.repository";
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { session } = await authenticate.admin(request);
+  const shop = session.shop;
+
+  // Load configuration
+  const config = await configRepository.findByShop(shop);
+
+  // Check setup status
+  const setupComplete = !!config?.settings?.enabled;
+  const themeExtensionEnabled = config?.themeExtensionEnabled || false;
+
+  return json({
+    shop,
+    setupComplete,
+    themeExtensionEnabled,
+  });
+};
+
+export default function Index() {
+  const { shop, setupComplete, themeExtensionEnabled } =
+    useLoaderData<typeof loader>();
+  const navigate = useNavigate();
+
+  const setupSteps = [
+    {
+      title: "Customize your app",
+      description: "Configure settings to match your brand",
+      action: "Customize",
+      completed: setupComplete,
+      route: "/app/customizer",
+    },
+    {
+      title: "Enable theme extension",
+      description: "Add app embed to your theme",
+      action: "Enable",
+      completed: themeExtensionEnabled,
+      route: "/app/extensions",
+    },
+  ];
+
+  const completedSteps = setupSteps.filter((step) => step.completed).length;
+  const progress = (completedSteps / setupSteps.length) * 100;
+
+  return (
+    <Page
+      title="My App Dashboard"
+      primaryAction={{
+        content: "Open Customizer",
+        onAction: () => navigate("/app/customizer"),
+      }}
+    >
+      <Layout>
+        <Layout.Section>
+          <BlockStack gap="500">
+            {/* Setup Guide */}
+            <Card>
+              <BlockStack gap="400">
+                <InlineStack align="space-between" blockAlign="center">
+                  <Text as="h2" variant="headingMd">
+                    Setup Guide
+                  </Text>
+                  <Badge progress={progress === 100 ? "complete" : "incomplete"}>
+                    {`${completedSteps} / ${setupSteps.length}`}
+                  </Badge>
+                </InlineStack>
+
+                {setupSteps.map((step, index) => (
+                  <Card key={index}>
+                    <InlineStack align="space-between" blockAlign="center">
+                      <BlockStack gap="200">
+                        <Text as="h3" variant="headingSm" fontWeight="semibold">
+                          {step.title}
+                        </Text>
+                        <Text as="p" variant="bodyMd" tone="subdued">
+                          {step.description}
+                        </Text>
+                      </BlockStack>
+                      {!step.completed && (
+                        <Button onClick={() => navigate(step.route)}>
+                          {step.action}
+                        </Button>
+                      )}
+                      {step.completed && (
+                        <Badge tone="success">Complete</Badge>
+                      )}
+                    </InlineStack>
+                  </Card>
+                ))}
+              </BlockStack>
+            </Card>
+
+            {/* Quick Actions */}
+            <Card>
+              <BlockStack gap="400">
+                <Text as="h2" variant="headingMd">
+                  Quick Actions
+                </Text>
+                <ButtonGroup>
+                  <Button variant="primary" onClick={() => navigate("/app/customizer")}>
+                    Open Customizer
+                  </Button>
+                  <Button onClick={() => window.open("shopify:admin/themes/current/editor", "_blank")}>
+                    Theme Editor
+                  </Button>
+                </ButtonGroup>
+              </BlockStack>
+            </Card>
+          </BlockStack>
+        </Layout.Section>
+
+        <Layout.Section variant="oneThird">
+          <Card>
+            <BlockStack gap="400">
+              <Text as="h2" variant="headingMd">
+                Status
+              </Text>
+              <BlockStack gap="300">
+                <InlineStack align="space-between">
+                  <Text>Configuration</Text>
+                  <Badge tone={setupComplete ? "success" : "attention"}>
+                    {setupComplete ? "Complete" : "Incomplete"}
+                  </Badge>
+                </InlineStack>
+                <InlineStack align="space-between">
+                  <Text>Theme Extension</Text>
+                  <Badge tone={themeExtensionEnabled ? "success" : "attention"}>
+                    {themeExtensionEnabled ? "Enabled" : "Disabled"}
+                  </Badge>
+                </InlineStack>
+              </BlockStack>
+            </BlockStack>
+          </Card>
+        </Layout.Section>
+      </Layout>
+    </Page>
+  );
+}
+```
+
+---
+
+## Customizer Page với Form Handling
+
+### Loader và Action Pattern
+
+```tsx
+// app/routes/app.customizer.tsx
+import { json, type LoaderFunctionArgs, type ActionFunctionArgs } from "@remix-run/node";
+import { useLoaderData, useNavigation, Form } from "@remix-run/react";
+import {
+  Page,
+  Layout,
+  Card,
+  FormLayout,
+  TextField,
+  ColorPicker,
+  Select,
+  Button,
+  InlineStack,
+  Text,
+  BlockStack,
+} from "@shopify/polaris";
+import { authenticate } from "../shopify.server";
+import * as configRepository from "../repositories/config.repository";
+
+// LOAD DATA
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { session } = await authenticate.admin(request);
+  const shop = session.shop;
+
+  const config = await configRepository.findByShop(shop);
+
+  return json({
+    shop,
+    config: config?.settings || {
+      buttonColor: "#000000",
+      buttonTextColor: "#FFFFFF",
+      position: "bottom",
+      enabled: false,
+    },
+  });
+};
+
+// HANDLE FORM SUBMISSION
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const { session } = await authenticate.admin(request);
+  const shop = session.shop;
+
+  const formData = await request.formData();
+
+  const settings = {
+    buttonColor: formData.get("buttonColor") as string,
+    buttonTextColor: formData.get("buttonTextColor") as string,
+    position: formData.get("position") as "top" | "bottom",
+    enabled: formData.get("enabled") === "true",
+  };
+
+  // Validate
+  if (!settings.buttonColor.match(/^#[0-9A-F]{6}$/i)) {
+    return json({ error: "Invalid color format" }, { status: 400 });
+  }
+
+  // Save
+  await configRepository.update(shop, { settings });
+
+  return json({ success: true });
+};
+
+// COMPONENT
+export default function Customizer() {
+  const { config } = useLoaderData<typeof loader>();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+
+  // Local state cho unsaved changes
+  const [buttonColor, setButtonColor] = useState(config.buttonColor);
+  const [position, setPosition] = useState(config.position);
+
+  return (
+    <Page
+      title="Customize Your App"
+      backAction={{ url: "/app" }}
+      primaryAction={{
+        content: "Save Changes",
+        submit: true,
+        loading: isSubmitting,
+      }}
+    >
+      <Form method="post">
+        <Layout>
+          <Layout.Section>
+            <Card>
+              <BlockStack gap="500">
+                <FormLayout>
+                  {/* Color Picker */}
+                  <ColorPicker
+                    label="Button Color"
+                    name="buttonColor"
+                    value={buttonColor}
+                    onChange={setButtonColor}
+                  />
+
+                  {/* Position Select */}
+                  <Select
+                    label="Button Position"
+                    name="position"
+                    options={[
+                      { label: "Top", value: "top" },
+                      { label: "Bottom", value: "bottom" },
+                    ]}
+                    value={position}
+                    onChange={setSelectedPosition}
+                  />
+
+                  {/* Hidden input cho form submission */}
+                  <input type="hidden" name="enabled" value="true" />
+                </FormLayout>
+              </BlockStack>
+            </Card>
+          </Layout.Section>
+
+          {/* Preview Panel */}
+          <Layout.Section variant="oneThird">
+            <Card>
+              <BlockStack gap="400">
+                <Text as="h2" variant="headingMd">
+                  Preview
+                </Text>
+                <div
+                  style={{
+                    padding: "20px",
+                    backgroundColor: "#f6f6f7",
+                    borderRadius: "8px",
+                  }}
+                >
+                  <button
+                    style={{
+                      backgroundColor: buttonColor,
+                      color: config.buttonTextColor,
+                      padding: "12px 24px",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </BlockStack>
+            </Card>
+          </Layout.Section>
+        </Layout>
+      </Form>
+    </Page>
+  );
+}
+
+function setSelectedPosition(value: string) {
+  setPosition(value as "top" | "bottom");
+}
+```
+
+---
+
+## Common UI Patterns
+
+### 1. Tabs Navigation
+
+```tsx
+import { Tabs } from "@shopify/polaris";
+
+function TabbedLayout() {
+  const [selectedTab, setSelectedTab] = useState(0);
+
+  const tabs = [
+    { id: "general", content: "General" },
+    { id: "appearance", content: "Appearance" },
+    { id: "advanced", content: "Advanced" },
+  ];
+
+  return (
+    <Tabs
+      tabs={tabs}
+      selected={selectedTab}
+      onSelect={setSelectedTab}
+    >
+      {selectedTab === 0 && <GeneralSettings />}
+      {selectedTab === 1 && <AppearanceSettings />}
+      {selectedTab === 2 && <AdvancedSettings />}
+    </Tabs>
+  );
+}
+```
+
+### 2. Modal/Dialog
+
+```tsx
+import { Modal, useAppBridge } from "@shopify/app-bridge-react";
+import { useState, useCallback } from "react";
+
+function DeleteButton() {
+  const [active, setActive] = useState(false);
+
+  const handleOpen = useCallback(() => setActive(true), []);
+  const handleClose = useCallback(() => setActive(false), []);
+
+  return (
+    <>
+      <Button onClick={handleOpen} tone="critical">
+        Delete
+      </Button>
+      <Modal
+        open={active}
+        onClose={handleClose}
+        title="Delete confirmation"
+        primaryAction={{
+          content: "Delete",
+          onAction: async () => {
+            await deleteItem();
+            handleClose();
+          },
+          tone: "critical",
+        }}
+        secondaryActions={[
+          {
+            content: "Cancel",
+            onAction: handleClose,
+          },
+        ]}
+      >
+        <Modal.Section>
+          <p>Are you sure you want to delete this item?</p>
+        </Modal.Section>
+      </Modal>
+    </>
+  );
+}
+```
+
+### 3. Toast Notifications
+
+```tsx
+import { useAppBridge } from "@shopify/app-bridge-react";
+import { showToast, Toast } from "@shopify/app-bridge-react";
+import { useState, useCallback } from "react";
+
+function SaveButton() {
+  const [active, setActive] = useState(false);
+
+  const toggleActive = useCallback(
+    () => setActive((active) => !active),
+    []
+  );
+
+  const handleSave = async () => {
+    const success = await saveData();
+
+    if (success) {
+      toggleActive();
+    }
+  };
+
+  return (
+    <>
+      <Button onClick={handleSave}>Save</Button>
+      {active && (
+        <Toast content="Settings saved" onDismiss={toggleActive} />
+      )}
+    </>
+  );
+}
+```
+
+---
+
+## App Navigation
+
+### Navigation Menu
+
+```tsx
+import { Navigation } from "@shopify/app-bridge-react";
+
+function AppNavigation() {
+  return (
+    <Navigation>
+      <Navigation.Section
+        items={[
+          {
+            label: "Dashboard",
+            url: "/app",
+            icon: HomeIcon,
+          },
+          {
+            label: "Customizer",
+            url: "/app/customizer",
+            icon: SettingsIcon,
+          },
+          {
+            label: "Analytics",
+            url: "/app/analytics",
+            icon: AnalyticsIcon,
+          },
+        ]}
+      />
+      <Navigation.Section
+        title="Settings"
+        items={[
+          {
+            label: "Account",
+            url: "/app/account",
+            icon: UserIcon,
+          },
+        ]}
+      />
+    </Navigation>
+  );
+}
+```
+
+---
+
+## Key Takeaways
+
+1. **Remix routing** - File-based, nested layouts
+2. **Loaders** - Load data parallel, cache by default
+3. **Actions** - Handle form submissions automatically
+4. **Polaris** - Design system for consistent UI
+5. **useLoaderData** - Access loader data in component
+6. **useNavigation** - Track loading state
+
+---
+
+## Next Steps
+
+Trong **Phần 6**, bạn sẽ học:
+- MongoDB schema design
+- Repository pattern
+- Mongoose models
+- Data validation
+
+[Đọc Phần 6: Database Design với MongoDB →](/blog/shopify-app-database-mongodb)
+
+[← Quay lại Phần 4: Authentication](/blog/shopify-app-authentication)

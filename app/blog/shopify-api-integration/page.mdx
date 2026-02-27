@@ -1,0 +1,623 @@
+export const metadata = {
+  title: 'Shopify API Integration - GraphQL và Admin API',
+  description: 'Hướng dẫn sử dụng Shopify Admin API và GraphQL để tích hợp với Shopify data trong app của bạn.',
+}
+
+# Shopify API Integration - GraphQL và Admin API
+
+## Giới thiệu
+
+Shopify API cho phép app tương tác với store data - products, orders, customers, và nhiều hơn nữa. Bài viết này sẽ hướng dẫn sử dụng GraphQL API hiệu quả.
+
+---
+
+## Shopify API Overview
+
+### API Types
+
+**1. Admin GraphQL API** (Recommended)
+- Single endpoint
+- Strongly typed schema
+- Fetch exact data needed
+- Better performance
+
+**2. Admin REST API**
+- Multiple endpoints
+- Resource-based URLs
+- Simpler cho basic operations
+
+**Khi nào dùng cái nào?**
+- GraphQL: Cho app phức tạp, nhiều queries
+- REST: Cho simple apps, quick integration
+
+---
+
+## GraphQL Fundamentals
+
+### Basic Query Structure
+
+```graphql
+query {
+  products(first: 10) {
+    nodes {
+      id
+      title
+      description
+      featuredImage {
+        url
+      }
+      variants(first: 5) {
+        nodes {
+          id
+          price
+          sku
+          inventoryQuantity
+        }
+      }
+    }
+  }
+}
+```
+
+### Using with Shopify App
+
+```typescript
+// app/routes/app.products.tsx
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { admin } = await authenticate.admin(request);
+
+  const response = await admin.graphql(`
+    query GetProducts($first: Int!) {
+      products(first: $first) {
+        nodes {
+          id
+          title
+          description
+          featuredImage {
+            url
+          }
+          variants(first: 10) {
+            nodes {
+              id
+              price
+              sku
+              availableForSale
+            }
+          }
+        }
+      }
+    }
+  `, {
+    variables: { first: 25 }
+  });
+
+  const { data } = await response.json();
+
+  return json(data.products.nodes);
+};
+```
+
+---
+
+## Common Operations
+
+### 1. Fetch Products
+
+```typescript
+const response = await admin.graphql(`
+  query GetProducts($first: Int!, $query: String) {
+    products(first: $first, query: $query) {
+      nodes {
+        id
+        title
+        handle
+        productType
+        vendor
+        status
+        totalInventory
+        priceRangeV2 {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        images(first: 1) {
+          nodes {
+            url
+            altText
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+`, {
+  variables: {
+    first: 50,
+    query: "status:active"
+  }
+});
+```
+
+### 2. Fetch Orders
+
+```typescript
+const response = await admin.graphql(`
+  query GetOrders($first: Int!) {
+    orders(first: $first, sortKey: CREATED_AT, reverse: true) {
+      nodes {
+        id
+        orderNumber
+        processedAt
+        financialStatus
+        fulfillmentStatus
+        totalPriceSet {
+          shopMoney {
+            amount
+            currencyCode
+          }
+        }
+        customer {
+          id
+          email
+          firstName
+          lastName
+        }
+        lineItems(first: 10) {
+          nodes {
+            title
+            quantity
+            variant {
+              id
+              price
+            }
+          }
+        }
+      }
+    }
+  }
+`, {
+  variables: { first: 25 }
+});
+```
+
+### 3. Create/Update Product (Mutation)
+
+```typescript
+// CREATE PRODUCT
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const { admin } = await authenticate.admin(request);
+  const formData = await request.formData();
+
+  const response = await admin.graphql(`
+    mutation productCreate($input: ProductInput!) {
+      productCreate(input: $input) {
+        product {
+          id
+          title
+          handle
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `, {
+    variables: {
+      input: {
+        title: formData.get("title"),
+        descriptionHtml: formData.get("description"),
+        productType: formData.get("productType"),
+        status: "ACTIVE"
+      }
+    }
+  });
+
+  const { data, errors } = await response.json();
+
+  if (errors || data.productCreate.userErrors.length > 0) {
+    return json({ error: "Failed to create product" }, { status: 400 });
+  }
+
+  return json(data.productCreate.product);
+};
+
+// UPDATE PRODUCT
+const updateResponse = await admin.graphql(`
+  mutation productUpdate($input: ProductInput!) {
+    productUpdate(input: $input) {
+      product {
+        id
+        title
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`, {
+  variables: {
+    input: {
+      id: "gid://shopify/Product/12345",
+      title: "New Title"
+    }
+  }
+});
+```
+
+---
+
+## Pagination
+
+### Cursor-based Pagination
+
+```typescript
+async function getAllProducts(admin: AdminApiContext) {
+  let products = [];
+  let hasNextPage = true;
+  let endCursor = null;
+
+  while (hasNextPage) {
+    const response = await admin.graphql(`
+      query GetProducts($first: Int!, $after: String) {
+        products(first: $first, after: $after) {
+          nodes {
+            id
+            title
+            handle
+          }
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
+        }
+      }
+    `, {
+      variables: {
+        first: 50,
+        after: endCursor
+      }
+    });
+
+    const { data } = await response.json();
+    products.push(...data.products.nodes);
+
+    hasNextPage = data.products.pageInfo.hasNextPage;
+    endCursor = data.products.pageInfo.endCursor;
+  }
+
+  return products;
+}
+```
+
+---
+
+## Rate Limiting
+
+### Understanding Rate Limits
+
+Shopify GraphQL API uses **cost-based rate limiting**:
+- Query cost calculated before execution
+- Bucket refills over time
+- Max bucket size: 1000 points
+
+### Check Rate Limit
+
+```typescript
+const response = await admin.graphql(`
+  query GetProducts {
+    products(first: 10) {
+      nodes {
+        id
+        title
+      }
+    }
+  }
+`);
+
+// Access rate limit info from headers
+const cost = {
+  requested: response.headers.get("X-Shopify-Shop-Api-Limit"),
+  available: response.headers.get("X-Shopify-Shop-Api-Limit-Remaining")
+};
+```
+
+### Best Practices
+
+```typescript
+// 1. Batch queries with @defer
+const response = await admin.graphql(`
+  query GetProducts {
+    products(first: 50) {
+      nodes {
+        id
+        title
+        ... @defer(label: "variants") {
+          variants(first: 10) {
+            nodes {
+              id
+              price
+            }
+          }
+        }
+      }
+    }
+  }
+`);
+
+// 2. Use connections efficiently
+// ❌ BAD - Fetch all then filter
+query GetProducts {
+  products(first: 250) {
+    nodes {
+      id
+      title
+      tags
+    }
+  }
+}
+
+// ✅ GOOD - Filter at source
+query GetProducts {
+  products(first: 50, query: "tag:new") {
+    nodes {
+      id
+      title
+    }
+  }
+}
+```
+
+---
+
+## Bulk Operations
+
+### For Large Data Sets
+
+```typescript
+// 1. Start bulk operation
+const response = await admin.graphql(`
+  mutation {
+    bulkOperationRunQuery(
+      query: """
+        {
+          products {
+            edges {
+              node {
+                id
+                title
+                handle
+                variants {
+                  edges {
+                    node {
+                      id
+                      sku
+                      price
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      """
+    ) {
+      bulkOperation {
+        id
+        status
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`);
+
+// 2. Poll for completion
+const bulkOperationId = data.bulkOperationRunQuery.bulkOperation.id;
+
+let isComplete = false;
+while (!isComplete) {
+  const statusResponse = await admin.graphql(`
+    query {
+      node(id: "${bulkOperationId}") {
+        ... on BulkOperation {
+          id
+          status
+          errorCode
+          createdAt
+          completedAt
+          objectCount
+          fileSize
+          url
+        }
+      }
+    }
+  `);
+
+  const { node } = await statusResponse.json();
+
+  if (node.status === "COMPLETED") {
+    isComplete = true;
+    // Download JSONL file from node.url
+  } else if (node.status === "FAILED") {
+    throw new Error(node.errorCode);
+  }
+
+  await new Promise(resolve => setTimeout(resolve, 1000));
+}
+```
+
+---
+
+## Real-world Examples
+
+### Fetch Shop Info
+
+```typescript
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { admin, session } = await authenticate.admin(request);
+
+  const response = await admin.graphql(`
+    query GetShopInfo {
+      shop {
+        name
+        email
+        primaryDomain {
+          url
+        }
+        plan {
+          displayName
+          partnerDevelopment
+        }
+        currencyCode
+        timezone
+        weightUnit
+      }
+    }
+  `);
+
+  const { data } = await response.json();
+
+  return json({ shop: data.shop });
+};
+```
+
+### Update Metafields
+
+```typescript
+const response = await admin.graphql(`
+  mutation SetMetafield($metafieldsSetInput: [MetafieldsSetInput!]!) {
+    metafieldsSet(metafields: $metafieldsSetInput) {
+      metafields {
+        key
+        namespace
+        value
+        type
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`, {
+  variables: {
+    metafieldsSetInput: [
+      {
+        namespace: "my_app",
+        key: "config",
+        value: JSON.stringify({ enabled: true }),
+        type: "json",
+        ownerId: "gid://shopify/Product/12345"
+      }
+    ]
+  }
+});
+```
+
+---
+
+## Code Generation với graphql-codegen
+
+### Setup
+
+```bash
+npm install @graphql-codegen/cli
+```
+
+```yaml
+# codegen.yml
+schema: https://shopify.dev/admin-apis/graphql/admin.graphql
+documents:
+  - "app/**/*.tsx"
+generates:
+  app/generated/graphql.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+```
+
+### Usage
+
+```typescript
+import { GetProductsQuery } from "~/generated/graphql";
+
+const { data } = await admin.graphql(GetProductsQuery, {
+  variables: { first: 10 }
+});
+
+// Types are auto-generated!
+data.products.nodes[0].title;
+```
+
+---
+
+## Error Handling
+
+```typescript
+try {
+  const response = await admin.graphql(query);
+
+  const { data, errors } = await response.json();
+
+  if (errors) {
+    // Handle GraphQL errors
+    console.error("GraphQL errors:", errors);
+
+    return json({
+      error: "Query failed",
+      details: errors
+    }, { status: 400 });
+  }
+
+  // Check user errors from mutations
+  if (data.productUpdate?.userErrors?.length > 0) {
+    return json({
+      error: "Validation failed",
+      details: data.productUpdate.userErrors
+    }, { status: 400 });
+  }
+
+  return json(data);
+
+} catch (error) {
+  // Handle network errors
+  console.error("Network error:", error);
+
+  return json({
+    error: "Failed to connect to Shopify API"
+  }, { status: 500 });
+}
+```
+
+---
+
+## Key Takeaways
+
+1. **GraphQL preferred** - More efficient than REST
+2. **Cursor pagination** - Handle large datasets
+3. **Rate limiting** - Monitor and optimize queries
+4. **Bulk operations** - For very large data sets
+5. **Error handling** - Always check errors and userErrors
+
+---
+
+## Next Steps
+
+Trong **Phần 8**, bạn sẽ học:
+- Theme App Extensions
+- Preact Web Components
+- Storefront integration
+- Metafields
+
+[Đọc Phần 8: Theme Extensions & Web Components →](/blog/shopify-theme-extensions)
+
+[← Quay lại Phần 6: Database Design](/blog/shopify-app-database-mongodb)

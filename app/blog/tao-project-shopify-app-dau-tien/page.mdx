@@ -1,0 +1,513 @@
+export const metadata = {
+  title: 'Tạo project Shopify App đầu tiên - Hướng dẫn chi tiết',
+  description: 'Hướng dẫn từng bước tạo project Shopify App với Shopify CLI, hiểu cấu trúc project và chạy app local.',
+}
+
+# Tạo project Shopify App đầu tiên
+
+## Giới thiệu
+
+Bạn đã chuẩn bị đầy đủ kiến thức và công cụ. Bây giờ là lúc **tạo project Shopify App đầu tiên** và chạy nó trên development store của bạn.
+
+---
+
+## Bước 1: Khởi tạo App với Shopify CLI
+
+### 1.1 Chọn template phù hợp
+
+Shopify CLI cung cấp 3 templates chính:
+
+**1. Remix (Recommended)**
+- Full-stack framework
+- Built-in routing, data loading
+- Best cho complex apps
+- Shopify official recommendation
+
+**2. React + HTML**
+- Simple setup
+- Good cho basic apps
+- Less opinionated
+
+**3. Node.js**
+- API-only app
+- No frontend UI
+- Good cho backend services
+
+### 1.2 Tạo app mới
+
+```bash
+# Navigate đến thư mục workspace
+cd ~/projects/shopify-apps
+
+# Initialize app
+shopify app init
+
+# CLI sẽ hỏi:
+? What is your project named? my-first-app
+? Which template would you like to use?
+  ❯ Remix
+    React + HTML
+    Node.js
+```
+
+**Sau khi chọn template:**
+```
+✅ Created project structure
+✅ Installed dependencies
+✅ Generated configuration files
+```
+
+---
+
+## Bước 2: Hiểu cấu trúc Project
+
+### Cấu trúc thư mục chuẩn
+
+```
+my-first-app/
+├── app/                          # Remix app directory
+│   ├── routes/                   # Routes (pages & API)
+│   │   ├── app._index.tsx       # Trang chủ (/app)
+│   │   ├── app.customizer.tsx   # Customizer page (/app/customizer)
+│   │   ├── api.*.tsx            # API endpoints
+│   │   └── webhooks.*.tsx       # Webhook handlers
+│   ├── components/              # React components
+│   ├── models/                  # Database models
+│   ├── repositories/            # Data access layer
+│   ├── services/                # Business logic
+│   ├── utils/                   # Utility functions
+│   ├── entry.server.tsx         # Server entry point
+│   ├── root.tsx                 # Root component
+│   ├── shopify.server.ts        # Shopify config
+│   └── routes.ts                # Route definitions
+├── packages/                    # Monorepo (optional)
+│   ├── web-components/          # Storefront components
+│   ├── types/                   # Shared types
+│   └── constants/               # Shared constants
+├── extensions/                  # Shopify extensions
+│   └── your-extension/          # Theme extensions
+├── public/                      # Static assets
+├── .env                         # Environment variables
+├── package.json                 # Dependencies & scripts
+├── shopify.app.toml             # App configuration
+├── tsconfig.json                # TypeScript config
+└── vite.config.ts               # Vite build config
+```
+
+### File cấu hình quan trọng
+
+**shopify.app.toml** - App configuration:
+```toml
+name = "my-first-app"
+id = "your-app-id"
+
+[auth]
+redirect_urls = [
+  "https://your-app-url.com/auth/callback",
+  "https://your-app-url.com/auth/shopify/callback",
+  "https://your-app-url.com/api/auth/tokens"
+]
+
+[app_settings]
+embedded = true
+
+[build]
+include_config_on_deploy = true
+
+[access_scopes]
+scopes = "write_products,read_themes,write_themes"
+
+[webhooks]
+api_version = "2024-01"
+
+  [[webhooks.subscriptions]]
+  topics = ["app/uninstalled"]
+  uri = "/webhooks/app/uninstalled"
+```
+
+**package.json** - Dependencies:
+```json
+{
+  "name": "my-first-app",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "remix vite:build",
+    "dev": "remix vite:dev",
+    "shopify:dev": "shopify app dev",
+    "deploy": "shopify app deploy"
+  },
+  "dependencies": {
+    "@remix-run/node": "^2.16.1",
+    "@remix-run/react": "^2.16.1",
+    "@shopify/polaris": "^13.9.5",
+    "@shopify/shopify-app-remix": "^3.8.5"
+  }
+}
+```
+
+---
+
+## Bước 3: Cấu hình App
+
+### 3.1 Tạo App trong Partner Dashboard
+
+**Option 1: Để CLI tạo tự động (Recommended)**
+```bash
+shopify app dev
+
+# CLI sẽ:
+# 1. Hỏi chọn organization
+# 2. Tạo app trong Partner Dashboard
+# 3. Generate API credentials
+# 4. Update shopify.app.toml
+```
+
+**Option 2: Tạo thủ công**
+1. Truy cập [Partner Dashboard](https://partners.shopify.com/)
+2. Go to **Apps** → **Create app**
+3. Fill in:
+   - **App name:** My First App
+   - **App type:** Public
+4. Click **Create app**
+5. Copy **API key** và **API secret key**
+6. Update `.env` file:
+```bash
+SHOPIFY_API_KEY=your_api_key_here
+SHOPIFY_API_SECRET=your_api_secret_here
+```
+
+### 3.2 Cấu hình Scopes
+
+Scopes định nghĩa quyền truy cập app của bạn.
+
+**Common scopes:**
+
+| Scope | Description | Use case |
+|-------|-------------|----------|
+| `write_products` | Đọc/viết products | Apps quản lý products |
+| `read_products` | Đọc products | Apps chỉ hiển thị products |
+| `write_orders` | Đọc/viết orders | Apps quản lý orders |
+| `read_orders` | Đọc orders | Apps analytics |
+| `write_customers` | Đọc/viết customers | CRM apps |
+| `read_themes` | Đọc theme files | Theme customization apps |
+| `write_themes` | Ghi theme files | Apps inject code vào theme |
+| `write_script_tags` | Thêm script tags | Apps inject JavaScript |
+
+**Best Practice:** Chỉ request scopes bạn thực sự cần.
+
+```toml
+# shopify.app.toml
+[access_scopes]
+scopes = "write_products,read_themes,write_themes"
+```
+
+### 3.3 Cấu hình App URL
+
+```toml
+[app_settings]
+embedded = true
+
+# Development URLs
+[auth]
+redirect_urls = [
+  "https://your-app.ngrok.app/auth/callback",
+  "https://your-app.ngrok.app/auth/shopify/callback"
+]
+
+[urls]
+host = "https://your-app.ngrok.app"
+```
+
+---
+
+## Bước 4: Chạy App Local
+
+### 4.1 Bắt đầu development server
+
+```bash
+cd my-first-app
+shopify app dev
+```
+
+**CLI sẽ:**
+```
+✅ Starting server at http://localhost:3456
+✅ Creating tunnel (ngrok/Cloudflare)
+✅ Updating app URL in Shopify
+✅ Open browser for installation
+```
+
+### 4.2 Cài đặt App vào Development Store
+
+1. Browser sẽ mở đến trang install
+2. Select development store
+3. Click **Install app**
+4. Approve requested scopes
+5. App sẽ redirect đến admin UI
+
+### 4.3 Kiểm tra App hoạt động
+
+**Trang admin (/app):**
+```tsx
+// app/routes/app._index.tsx
+import { Card, Page, Layout, Button } from "@shopify/polaris";
+
+export default function Index() {
+  return (
+    <Page title="My First App">
+      <Layout>
+        <Layout.Section>
+          <Card>
+            <p>Congratulations! Your app is running.</p>
+            <Button variant="primary">Get Started</Button>
+          </Card>
+        </Layout.Section>
+      </Layout>
+    </Page>
+  );
+}
+```
+
+---
+
+## Bước 5: Understanding Remix Routes
+
+### Route Convention
+
+Remix uses **file-based routing**:
+
+```
+app/routes/
+├── app._index.tsx         → /app
+├── app.settings.tsx       → /app/settings
+├── app.customizer.tsx     → /app/customizer
+├── api.config.tsx         → /api/config
+└── webhooks.uninstalled.tsx → /webhooks/uninstalled
+```
+
+### Loader và Action Pattern
+
+```tsx
+// Loader - Load data khi page load
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { session } = await authenticate.admin(request);
+  const shop = session.shop;
+
+  const config = await configRepository.findByShop(shop);
+
+  return json({ shop, config });
+};
+
+// Action - Handle form submissions
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const { session } = await authenticate.admin(request);
+  const formData = await request.formData();
+
+  // Process data
+  await saveConfig(formData);
+
+  return redirect("/app/success");
+};
+
+// Component - Render UI
+export default function SettingsPage() {
+  const { config } = useLoaderData<typeof loader>();
+  const navigator = useNavigation();
+
+  return (
+    <Page title="Settings">
+      {/* Form submission triggers action */}
+    </Page>
+  );
+}
+```
+
+---
+
+## Bước 6: Hello World - Thay đổi UI
+
+### 6.1 Sửa trang chủ
+
+```tsx
+// app/routes/app._index.tsx
+import { useLoaderData } from "@remix-run/react";
+import { authenticate } from "../shopify.server";
+import { Card, Page, Layout, Text, Button } from "@shopify/polaris";
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { session } = await authenticate.admin(request);
+
+  return json({
+    shop: session.shop,
+  });
+};
+
+export default function Index() {
+  const { shop } = useLoaderData<typeof loader>();
+
+  return (
+    <Page title="Welcome to My First App">
+      <Layout>
+        <Layout.Section>
+          <Card>
+            <BlockStack gap="400">
+              <Text as="h1" variant="headingLg">
+                Hello, {shop}!
+              </Text>
+              <Text>
+                This is your first Shopify App running locally.
+              </Text>
+              <Button variant="primary">
+                Get Started
+              </Button>
+            </BlockStack>
+          </Card>
+        </Layout.Section>
+      </Layout>
+    </Page>
+  );
+}
+```
+
+### 6.2 Thêm API endpoint
+
+```tsx
+// app/routes/api.hello.tsx
+import { json, type ActionFunctionArgs } from "@remix-run/node";
+import { authenticate } from "../shopify.server";
+
+export async function action({ request }: ActionFunctionArgs) {
+  const { session } = await authenticate.admin(request);
+
+  if (request.method === "POST") {
+    const body = await request.json();
+
+    return json({
+      message: `Hello from ${session.shop}!`,
+      received: body
+    });
+  }
+
+  return json({ error: "Method not allowed" }, { status: 405 });
+}
+```
+
+---
+
+## Bước 7: Testing trong Development Store
+
+### 7.1 Test App Installation
+
+1. Uninstall app (nếu đã install)
+2. Reinstall từ development store
+3. Verify app appears in **Apps** section
+4. Click app icon to open admin UI
+
+### 7.2 Test API Calls
+
+```bash
+# Test API endpoint
+curl -X POST https://your-app.ngrok.app/api/hello \
+  -H "Content-Type: application/json" \
+  -d '{"test": "data"}'
+```
+
+### 7.3 Debug Mode
+
+```bash
+# Run with verbose output
+shopify app dev --verbose
+
+# Check logs
+tail -f logs/shopify.log
+```
+
+---
+
+## Common Issues & Solutions
+
+### Issue: "Partner account not found"
+
+**Solution:**
+```bash
+# Login again
+shopify login
+```
+
+### Issue: "Port already in use"
+
+**Solution:**
+```bash
+# Kill process hoặc specify different port
+shopify app dev --port=3457
+```
+
+### Issue: "Tunnel creation failed"
+
+**Solution:**
+```bash
+# Use custom tunnel
+shopify app dev --tunnel-url=https://your-tunnel.com
+```
+
+---
+
+## Project Structure từ Production App
+
+**Tham khảo thực tế từ sticky-add-to-cart:**
+
+```
+sticky-add-to-cart/
+├── app/
+│   ├── routes/                    # 20+ routes
+│   │   ├── app._index.tsx        # Dashboard
+│   │   ├── app.customizer.tsx    # Settings UI
+│   │   ├── api.*.tsx             # API endpoints
+│   │   └── webhooks.*.tsx        # Webhook handlers
+│   ├── components/                # 15+ Polaris components
+│   ├── models/                    # Mongoose models
+│   │   ├── config.model.ts
+│   │   ├── store.model.ts
+│   │   └── analytics.model.ts
+│   ├── repositories/              # Data access layer
+│   │   ├── config.repository.ts
+│   │   └── store.repository.ts
+│   ├── services/                  # Business logic
+│   │   ├── shopify.service.ts
+│   │   └── analytics.service.ts
+│   ├── validators/                # Input validation
+│   ├── utils/                     # Helper functions
+│   └── shopify.server.ts          # Shopify config
+├── packages/                      # Monorepo
+│   ├── web-components/           # Storefront components
+│   ├── types/                    # Shared types
+│   └── constants/                # Shared constants
+├── extensions/                    # Shopify extensions
+│   ├── sticky-add-to-cart/       # Main extension
+│   └── sticky-add-to-cart-pixel/ # Analytics extension
+└── prisma/                       # Database schema (nếu dùng Prisma)
+```
+
+---
+
+## Key Takeaways
+
+1. **Shopify CLI** tạo project structure tự động
+2. **Remix framework** dùng file-based routing
+3. **shopify.app.toml** chứa app configuration
+4. **shopify app dev** start local development với tunnel
+5. **Loader/Action pattern** cho data fetching và mutations
+
+---
+
+## Next Steps
+
+Đây là **Phần 3**. Trong **Phần 4**, bạn sẽ học:
+- OAuth flow chi tiết
+- Session management với Redis
+- Access tokens và scopes
+- Embedded app security
+
+[Đọc Phần 4: Authentication & Authorization →](/blog/shopify-app-authentication)
+
+[← Quay lại Phần 2: Chuẩn bị kiến thức](/blog/chuan-bi-kien-thuc-shopify-app)
