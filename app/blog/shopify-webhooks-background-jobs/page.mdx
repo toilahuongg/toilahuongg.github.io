@@ -225,7 +225,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
 ### For Long-running Tasks
 
-Webhooks must respond quickly (<5 seconds). Use background jobs cho heavy processing.
+Webhooks must respond quickly (&lt;5 seconds). Use background jobs cho heavy processing.
 
 ```typescript
 // app/services/job-queue.service.ts
@@ -551,7 +551,7 @@ return json({ success: true });
 1. **Webhooks** - Real-time event notifications
 2. **HMAC verification** - Built-in with authenticate.webhook()
 3. **Background jobs** - Queue heavy processing
-4. **Quick response** - Respond <5 seconds
+4. **Quick response** - Respond &lt;5 seconds
 5. **Retries** - Return 5xx for automatic retry
 
 ---
